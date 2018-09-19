@@ -1,0 +1,124 @@
+
+ .header{
+   width:100%;
+   height: 35px;
+   display: flex;
+   background-color: #e1dfe5;
+ }
+
+ .content{
+   background-color: #ebebeb;
+   width:100%;
+   height:100%;
+ }
+ .graph{
+   border-radius: 15px;
+   width:70%;
+   display: flex;
+   margin: auto;
+   background-color: #fff;
+ }
+.Doughnut{
+  border-radius: 15px;
+
+}
+.table{
+  width:30%;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+}
+ .head2{
+   border-radius: 15px;
+   display: flex;
+   justify-content: space-around;
+   flex-direction: row;
+   width:95%;
+   flex-wrap: wrap;
+   padding:1%;
+
+ }
+.content1{
+  border-radius: 15px;
+  background-color: #fff;
+  width: 15%;
+  height: 19%;
+  align-self: center;
+}
+
+.body{
+  border-radius: 15px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-direction: row;
+  padding: 1%;
+}
+.selector{
+  border-radius: 15px;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-around;
+ background-color: #fff;
+ height: 33%;
+ margin: 2%;
+
+}
+
+.footer{
+  width:100%;
+  height: 50px;
+  background-color: #ebebeb;
+}
+
+
+@media only screen and (max-width:720px){
+  .header{
+    width:100%;
+    height: 35px;
+    background-color: #e1dfe5;
+  }
+
+  .content{
+    background-color: #ebebeb;
+    width:100%;
+    height:100%;
+  }
+  .graph{
+    border-radius: 15px;
+    width:50%;
+    height:50;
+    background-color: black;
+    transform: rotate(90deg);
+  }
+
+
+ .content1{
+   border-radius: 15px;
+   background-color: #fff;
+   width:100%;
+ }
+ .body{
+   border-radius: 15px;
+   display: flex;
+   width: 100%;
+   height: inherit;
+   flex-direction: row;
+ }
+ .selector{
+   border-radius: 15px;
+  height: 100%;
+  background-color: #fff;
+  padding: 1%;
+ }
+
+ .footer{
+   width:100%;
+   height: 50px;
+   background-color: #ebebeb;
+ }
+
+
+}

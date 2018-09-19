@@ -1,0 +1,24 @@
+.login{
+  background-repeat: no-repeat;
+  background-size:cover;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height:100vh;
+    margin: auto;
+    width: 50%;
+}
+.email{
+  background-color: rgba(0,0,0,0.1);
+  width:30%;
+  margin:5px;
+  color:#fff;
+
+}
+.password{
+  background-color: rgba(0,0,0,0.1);
+  width:30%;
+  margin: 5px;
+  color:#fff;
+}

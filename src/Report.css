@@ -1,0 +1,11 @@
+.table1{
+  width:100%;
+  height:300px;
+  margin: auto;
+}
+.table table, th, td {
+    border: 1px solid black;
+}
+.table th, td {
+    padding: 15px;
+}
