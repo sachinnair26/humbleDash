@@ -51,22 +51,24 @@ class App extends Component {
       fetch: true,
       Data: {},
       organisationData: [],
-      organisation: ""
+      organisation: this.props.organisationData[0]
     };
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      organisationData: props.organisationData,
-      organisationsSelectdefault: props.organisationData[0]
+      organisationData: props.organisationData
     });
     this.setState({ fetch: false });
 
     this.getDataVal(props.Data);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchOrganisationAction();
+  }
+  componentDidMount() {
+    this.setState({ organisation: this.props.organisationData[0] });
   }
   handleOrganisationChange(e) {
     console.log(e);
@@ -104,11 +106,19 @@ class App extends Component {
   }
   dateChange(date, dateString) {
     var date1 = new Date(dateString).toDateString("YYYY-MM-DD");
-    this.props.fetchData();
+    this.props.fetchData(
+      date1,
+      this.state.currentDevice,
+      this.state.organisation
+    );
     this.setState({ date: date1, currentGraph: "main", fetch: true });
   }
   selectDevice(currentDevice) {
-    this.props.fetchData();
+    this.props.fetchData(
+      this.state.date,
+      currentDevice,
+      this.state.organisation
+    );
     this.setState({
       currentDevice: currentDevice,
       fetch: true,
@@ -469,7 +479,6 @@ class App extends Component {
             this.state.timegood[10],
             this.state.timegood[11],
             this.state.timegood[12],
-            ,
             this.state.timegood[13],
             this.state.timegood[14],
             this.state.timegood[15],
@@ -504,7 +513,6 @@ class App extends Component {
             this.state.timebad[10],
             this.state.timebad[11],
             this.state.timebad[12],
-            ,
             this.state.timebad[13],
             this.state.timebad[14],
             this.state.timebad[15],
@@ -539,7 +547,6 @@ class App extends Component {
             this.state.timeavg[10],
             this.state.timeavg[11],
             this.state.timeavg[12],
-            ,
             this.state.timeavg[13],
             this.state.timeavg[14],
             this.state.timeavg[15],
