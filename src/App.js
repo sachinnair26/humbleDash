@@ -349,7 +349,6 @@ class App extends Component {
             this.state.footData[10],
             this.state.footData[11],
             this.state.footData[12],
-            ,
             this.state.footData[13],
             this.state.footData[14],
             this.state.footData[15],
@@ -414,7 +413,6 @@ class App extends Component {
             this.state.UserDelight[10],
             this.state.UserDelight[11],
             this.state.UserDelight[12],
-            ,
             this.state.UserDelight[13],
             this.state.UserDelight[14],
             this.state.UserDelight[15],
@@ -619,9 +617,9 @@ class App extends Component {
             </div>
             <div className="content">
               <div className="head2">
-                <Card className="content1">
+                <Card className="content1 deviceName">
                   <h5>Device Name:</h5>
-                  <h2>{this.state.currentDevice}</h2>
+                  <h3>{this.state.currentDevice}</h3>
                 </Card>
                 <Card
                   className="content1"
