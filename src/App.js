@@ -51,35 +51,32 @@ class App extends Component {
       fetch: true,
       Data: {},
       organisationData: [],
-      organisation: this.props.organisationData[0]
+      organisation: "PHOTON",
+      goodCount: "",
+      badCount: "",
+      averageCount: ""
     };
   }
 
   componentWillReceiveProps(props) {
-    this.setState({
-      organisationData: props.organisationData
-    });
-    this.setState({ fetch: false });
+    this.setState({ fetch: false, deviceList: props.fetch });
 
     this.getDataVal(props.Data);
   }
 
   componentWillMount() {
-    this.props.fetchOrganisationAction();
+    this.props.fetchDevice(this.state.organisation);
   }
-  componentDidMount() {
-    this.setState({ organisation: this.props.organisationData[0] });
-  }
-  handleOrganisationChange(e) {
-    console.log(e);
-    this.setState({ organisation: e });
-    this.props.fetchDevice(e);
-  }
+
   showModal() {
     this.setState({ modalView: true });
   }
   okModal() {
-    this.props.getReportData(this.state.dateList, this.state.deviceForReport);
+    this.props.getReportData(
+      this.state.organisation,
+      this.state.dateList,
+      this.state.deviceForReport
+    );
     setTimeout(() => {
       this.props.history.push("/report");
     }, 1000);
@@ -105,13 +102,14 @@ class App extends Component {
     }
   }
   dateChange(date, dateString) {
+    console.log(date1, this.state.currentDevice, this.state.organisation);
     var date1 = new Date(dateString).toDateString("YYYY-MM-DD");
     this.props.fetchData(
       date1,
       this.state.currentDevice,
       this.state.organisation
     );
-    this.setState({ date: date1, currentGraph: "main", fetch: true });
+    this.setState({ date: date1, currentGraph: "main" });
   }
   selectDevice(currentDevice) {
     this.props.fetchData(
@@ -121,7 +119,7 @@ class App extends Component {
     );
     this.setState({
       currentDevice: currentDevice,
-      fetch: true,
+
       currentGraph: "main"
     });
   }
@@ -140,10 +138,11 @@ class App extends Component {
       if (p.good === 1) {
         goodCount = goodCount + 1;
         UserDelightCount = UserDelightCount + 1;
-        for (var j = 1; j <= 24; j++) {
+        for (var j = 0; j < 24; j++) {
           if (Number(p.lastTimestamp.slice(16, 18)) === j) {
+            console.log(p.lastTimestamp.slice(16, 18));
+
             if (!good[j]) {
-              good[j] = 0;
               good[j] = 1;
             } else {
               good[j] = good[j] + 1;
@@ -167,13 +166,11 @@ class App extends Component {
             }
           }
         }
-      }
-      if (p.bad === 1) {
+      } else if (p.bad === 1) {
         badCount = badCount + 1;
-        for (var j = 1; j <= 24; j++) {
+        for (var j = 0; j < 24; j++) {
           if (Number(p.lastTimestamp.slice(16, 18)) === j) {
             if (!bad[j]) {
-              bad[j] = 0;
               bad[j] = 1;
             } else {
               bad[j] = bad[j] + 1;
@@ -196,14 +193,12 @@ class App extends Component {
             }
           }
         }
-      }
-      if (p.average === 1) {
+      } else if (p.average === 1) {
         avgCount = avgCount + 1;
         UserDelightCount = UserDelightCount + 0.5;
-        for (var j = 1; j <= 24; j++) {
+        for (var j = 0; j < 24; j++) {
           if (Number(p.lastTimestamp.slice(16, 18)) === j) {
             if (!average[j]) {
-              average[j] = 0;
               average[j] = 1;
             } else {
               average[j] = average[j] + 1;
@@ -229,10 +224,10 @@ class App extends Component {
         }
       }
     });
+    console.log(goodCount, badCount, avgCount);
     var percentgood = Math.round((goodCount / total) * 100);
     var percentbad = Math.round((badCount / total) * 100);
     var percentaverage = Math.round((avgCount / total) * 100);
-
     this.setState({
       timeavg: average,
       timebad: bad,
@@ -242,7 +237,10 @@ class App extends Component {
       percentaverage: percentaverage,
       total: total,
       UserDelight: userdelight,
-      UserDelightCount: UserDelightCount
+      UserDelightCount: UserDelightCount,
+      goodCount: goodCount,
+      badCount: badCount,
+      averageCount: avgCount
     });
   }
 
@@ -300,7 +298,7 @@ class App extends Component {
       });
   }
   render() {
-    console.log(this.state.organisationData);
+    console.log(this.state.organisation);
     var datafoot = {
       labels: [
         "12AM-1AM",
@@ -655,19 +653,6 @@ class App extends Component {
 
                 <div className="table">
                   <div className="selector">
-                    <Select
-                      placeholder=""
-                      onChange={this.handleOrganisationChange.bind(this)}
-                      value={this.state.organisation}
-                      style={{ width: 200, margin: "auto" }}
-                      value={this.state.organisation}
-                    >
-                      {this.state.organisationData.map(p => (
-                        <Option value={p} key={p}>
-                          {p}
-                        </Option>
-                      ))}
-                    </Select>
                     <DatePicker
                       size="small"
                       style={{ width: "60%", margin: "auto" }}
@@ -676,7 +661,7 @@ class App extends Component {
                       format={"YYYY-MM-DD"}
                     />
                     <Select
-                      value={this.state.currentDevice}
+                      placeholder="Select"
                       style={{ width: 200, margin: "auto" }}
                       onChange={this.selectDevice.bind(this)}
                     >

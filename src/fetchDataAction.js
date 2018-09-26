@@ -12,6 +12,7 @@ export default function fetchData(date, currentDevice, link) {
       .startAt(date + " 00:00:01 GMT+0530 (IST)")
       .endAt(date + " 23:59:59 GMT+0530 (IST)")
       .on("value", function(dataVal) {
+        data = [];
         dataVal.forEach(a => {
           data.push(a.val());
         });
