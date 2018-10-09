@@ -17,18 +17,21 @@ export default class DeviceTable extends Component {
           title: "DeviceName",
           dataIndex: "devicename",
           key: "devicename",
+          className: "deviceName",
           sorter: (a, b) => a.devicename.length - b.devicename.length
         },
         {
           title: "FootFall",
           dataIndex: "footfall",
           key: "footfall",
+          className: "footfall",
           sorter: (a, b) => a.footfall - b.footfall
         },
         {
           title: "UserDelight",
           dataIndex: "userDelight",
           key: "userDelight",
+          className: "userdeilght",
           sorter: (a, b) => a.userDelight - b.userDelight
         }
       ]
@@ -80,6 +83,7 @@ export default class DeviceTable extends Component {
         <div>
           <input placeholder="search " onChange={this.onSearch.bind(this)} />
           <Table
+            bordered
             size="small"
             pagination={{ pageSize: 50 }}
             style={{ overflow: "auto" }}
@@ -95,6 +99,22 @@ export default class DeviceTable extends Component {
             dataSource={this.state.data1}
             loading={this.state.spin}
           />
+          {/* <table>
+            <tbody> 
+              <tr>
+                <th>DeviceName</th>
+                <th>Footfall</th>
+                <th>UserDelight</th>
+              </tr>
+              {this.state.data1.map(e => (
+                <tr key={e.key}>
+                  <td>{e.devicename}</td>
+                  <td>{e.footfall}</td>
+                  <td>{e.userDelight} </td>
+                </tr>
+              ))}
+            </tbody>
+          </table> */}
         </div>
       </div>
     );

@@ -9,16 +9,31 @@
   background-color: #ebebeb;
   width: 100%;
   height: 100%;
-}
-
-.graph {
-  width: 50%;
-  height: 70vh;
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.body-graph-main {
+  display: flex;
+  width: 95%;
+  background-color: #fff;
+  margin: auto;
+  padding: 5px;
+  flex-wrap: wrap;
+  border-radius: 20px;
+}
+.graph {
+  height: 60vh;
+  width: 70%;
   margin: auto;
   background-color: #fff;
 }
 
+.date-table {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
 .head2 {
   display: flex;
   justify-content: space-around;
@@ -29,24 +44,37 @@
 .content1 {
   background-color: #fff;
   padding: 1%;
+  min-width: 7%;
+  border-radius: 14px;
 }
-
-.body {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  padding: 1%;
+.content hr {
+  overflow: visible; /* For IE */
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
+}
+.content hr:after {
+  content: "Realtime data";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1em;
+  padding: 0 0.25em;
+  background: #ebebeb;
 }
 .barStyle {
   display: flex;
   flex-direction: row;
-  width: 99%;
+  width: 98%;
+  font-size: 9px;
   margin: auto;
-  font-size: 10px;
 }
 .goodSpan {
   background-color: rgba(10, 167, 69, 0.2);
   border: 2px solid;
+  border-radius: 5px 0px 0px 5px;
   border-color: rgba(10, 167, 69, 1);
   border-width: 1;
   width: 33%;
@@ -70,68 +98,12 @@
   width: 33%;
   background-color: rgba(205, 92, 92, 0.2);
   border: 2px solid;
+  border-radius: 0px 5px 5px 0px;
+
   border-color: rgba(205, 92, 92, 0.2);
   border-width: 1;
 }
 .badSpan:hover {
   background-color: rgba(255, 99, 132, 0.4);
   border-color: rgba(255, 99, 132, 1);
-}
-
-@media only screen and (max-width: 720px) {
-  .header {
-    width: 100%;
-    height: 35px;
-    background-color: #e1dfe5;
-  }
-
-  .content {
-    background-color: #ebebeb;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-  }
-  .graph {
-    border-radius: 15px;
-    width: 100vw;
-    height: 50vh;
-    background-color: black;
-  }
-  .head2 {
-    width: 100%;
-  }
-
-  .content1 {
-    border-radius: 15px;
-    background-color: #fff;
-    width: 100%;
-  }
-  .body {
-    border-radius: 15px;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: base;
-  }
-  .selector {
-    border-radius: 15px;
-    width: 90%;
-    background-color: #fff;
-    padding: 1%;
-  }
-
-  .footer {
-    width: 100%;
-    height: 50px;
-    background-color: #ebebeb;
-  }
-  .table {
-    width: 100%;
-    padding: 1%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
 }

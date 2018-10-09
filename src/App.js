@@ -496,111 +496,110 @@ class App extends Component {
 
     return (
       <div style={{ margin: "auto", height: "100vh" }}>
-        <div>
-          <div className="header">
-            <h2 style={{ margin: "auto", textAlign: "center" }}>
-              Toilet Monitoring System
-            </h2>
-            <Button type="primary" onClick={this.signOut.bind(this)}>
-              LogOut
-            </Button>
+        <div className="header">
+          <h2 style={{ margin: "auto", textAlign: "center" }}>
+            Toilet Monitoring System
+          </h2>
+          <Button type="primary" onClick={this.signOut.bind(this)}>
+            LogOut
+          </Button>
 
-            <Modal
-              title="Report"
-              visible={this.state.modalView}
-              onOk={this.okModal.bind(this)}
-              onCancel={this.cancelModal.bind(this)}
+          <Modal
+            title="Report"
+            visible={this.state.modalView}
+            onOk={this.okModal.bind(this)}
+            onCancel={this.cancelModal.bind(this)}
+          >
+            <RangePicker onChange={this.rangePicker.bind(this)} />
+            <Select
+              style={{ width: 200, margin: "auto" }}
+              onChange={this.selectDeviceforReport.bind(this)}
             >
-              <RangePicker onChange={this.rangePicker.bind(this)} />
-              <Select
-                style={{ width: 200, margin: "auto" }}
-                onChange={this.selectDeviceforReport.bind(this)}
-              >
-                {this.props.fetch.map(o => (
-                  <Option value={o} key={o}>
-                    {o}
-                  </Option>
-                ))}
-              </Select>
-            </Modal>
+              {this.props.fetch.map(o => (
+                <Option value={o} key={o}>
+                  {o}
+                </Option>
+              ))}
+            </Select>
+          </Modal>
+        </div>
+        <div className="content">
+          <div className="head2">
+            <div className="content1 ">
+              <h5>Device Name:</h5>
+              <h4>{this.state.currentDevice}</h4>
+            </div>
+
+            <div
+              className="content1"
+              onClick={this.UserDelightClick.bind(this)}
+            >
+              <h5>UserDelight</h5>
+              <h3>{this.state.UserDelightCount}</h3>
+            </div>
+            <div className="content1" onClick={this.footFallClick.bind(this)}>
+              <h5>FootFall:</h5>
+              <h3>{this.state.total}</h3>
+            </div>
           </div>
-          <div className="content">
-            <div className="head2">
-              <div className="content1 ">
-                <h5>Device Name:</h5>
-                <h4>{this.state.currentDevice}</h4>
-              </div>
-              <div>
-                <DatePicker
-                  size="small"
-                  onChange={this.dateChange.bind(this)}
-                  defaultValue={moment(new Date(), "YYYY-MM-DD")}
-                  format={"YYYY-MM-DD"}
-                />
-              </div>
-              <div
-                className="content1"
-                onClick={this.UserDelightClick.bind(this)}
-              >
-                <h5>UserDelight</h5>
-                <h3>{this.state.UserDelightCount}</h3>
-              </div>
-              <div className="content1" onClick={this.footFallClick.bind(this)}>
-                <h5>FootFall:</h5>
-                <h3>{this.state.total}</h3>
-              </div>
-            </div>
-            <div className="barStyle">
-              <span
-                className="goodSpan"
+          <div className="barStyle">
+            <span
+              className="goodSpan"
+              style={{
+                width: this.state.percentgood + "%",
+                transition: "width 1s"
+              }}
+            >
+              {this.state.goodCount}
+            </span>
+            <span
+              className="avgSpan"
+              style={{
+                width: this.state.percentaverage + "%",
+                transition: "width 1s"
+              }}
+            >
+              {this.state.averageCount}
+            </span>
+            <span
+              className="badSpan"
+              style={{
+                width: this.state.percentbad + "%",
+                transition: "width 1s"
+              }}
+            >
+              {this.state.badCount}
+            </span>
+          </div>
+          <hr style={{ width: "100%" }} />
+          <div className="body-graph-main">
+            <div className="date-table">
+              <DatePicker
+                size="small"
+                onChange={this.dateChange.bind(this)}
+                defaultValue={moment(new Date(), "YYYY-MM-DD")}
+                format={"YYYY-MM-DD"}
                 style={{
-                  width: this.state.percentgood + "%",
-                  transition: "width 1s"
+                  width: "80%",
+                  margin: "auto"
                 }}
-              >
-                {this.state.goodCount}
-              </span>
-              <span
-                className="avgSpan"
-                style={{
-                  width: this.state.percentaverage + "%",
-                  transition: "width 1s"
-                }}
-              >
-                {this.state.averageCount}
-              </span>
-              <span
-                className="badSpan"
-                style={{
-                  width: this.state.percentbad + "%",
-                  transition: "width 1s"
-                }}
-              >
-                {this.state.badCount}
-              </span>
-            </div>
-            <div className="body">
-              <DeviceTable
-                getdata={this.getTableData.bind(this)}
-                style={{ width: "50%" }}
               />
-              <div className="graph">
-                <Bar
-                  data={
-                    this.state.currentGraph === "main"
-                      ? datagraph
-                      : this.state.currentGraph === "foot"
-                        ? datafoot
-                        : userdelight
-                  }
-                  height={480}
-                  width={1300}
-                  options={{ maintainAspectRatio: false, responsive: true }}
-                />
-              </div>
+              <DeviceTable getdata={this.getTableData.bind(this)} />
+            </div>
+
+            <div className="graph">
+              <Bar
+                data={
+                  this.state.currentGraph === "main"
+                    ? datagraph
+                    : this.state.currentGraph === "foot"
+                      ? datafoot
+                      : userdelight
+                }
+                options={{ maintainAspectRatio: false, responsive: true }}
+              />
             </div>
           </div>
-          <div className="footer" />
         </div>
       </div>
     );
