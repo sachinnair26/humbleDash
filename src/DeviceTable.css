@@ -1,0 +1,9 @@
+.table {
+  padding: 10px;
+
+  background-color: aliceblue;
+}
+.table input {
+  border: 1.4px solid black;
+  border-radius: 3px 3px 0px 0px;
+}

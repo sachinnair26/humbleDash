@@ -14,7 +14,7 @@ class Login extends React.Component {
     this.state = {};
   }
   onButtonClick() {
-    history.push("/dashboard");
+    this.props.history.push("/dashboard");
   }
   render() {
     return (

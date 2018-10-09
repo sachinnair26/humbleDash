@@ -22,7 +22,7 @@ import Chart from "chart.js";
 import fetchOrganisationAction from "./fetchOrganisationAction";
 import { Bar, Doughnut } from "react-chartjs-2";
 import createHistory from "history/createBrowserHistory";
-
+import DeviceTable from "./Table";
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const history = createHistory({ forceRefresh: true });
@@ -32,13 +32,13 @@ class App extends Component {
 
     this.state = {
       dateList: [],
-      UserDelightCount: 0,
+      UserDelightCount: "",
       date: new Date().toDateString("YYYY-MM-DD "),
       deviceForReport: "",
       percentbad: "0",
       percentgood: "0",
       percentaverage: "0",
-      total: 0,
+      total: "",
       currentDevice: this.props.fetch[0],
       footData: {},
       currentGraph: "main",
@@ -46,12 +46,35 @@ class App extends Component {
       timeavg: {},
       timegood: {},
       timebad: {},
-      deviceList: [],
+      labels: [
+        "12AM-1AM",
+        "1AM-2AM",
+        "2AM-3AM",
+        "3AM-4AM",
+        "4AM-5AM",
+        "5AM-6AM",
+        "6AM-7AM",
+        "7AM-8AM",
+        "8AM-9AM",
+        "9AM-10AM",
+        "10AM-11AM",
+        "11AM-12PM",
+        "12PM-1PM",
+        "1PM-2PM",
+        "2PM-3PM",
+        "3PM-4PM",
+        "4PM-5PM",
+        "5PM-6PM",
+        "6PM-7PM",
+        "7PM-8PM",
+        "8PM-9PM",
+        "9PM-10PM",
+        "10PM-11PM",
+        "11PM-12AM"
+      ],
       modalView: false,
-      fetch: true,
       Data: {},
-      organisationData: [],
-      organisation: "PHOTON",
+      organisation: "AIMSKOCHI",
       goodCount: "",
       badCount: "",
       averageCount: ""
@@ -59,17 +82,16 @@ class App extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ fetch: false, deviceList: props.fetch });
-
     this.getDataVal(props.Data);
-  }
-
-  componentWillMount() {
-    this.props.fetchDevice(this.state.organisation);
   }
 
   showModal() {
     this.setState({ modalView: true });
+  }
+  getTableData(deviceName) {
+    console.log(deviceName);
+    this.setState({ currentDevice: deviceName });
+    this.props.fetchData(this.state.date, deviceName, this.state.organisation);
   }
   okModal() {
     this.props.getReportData(
@@ -111,18 +133,7 @@ class App extends Component {
     );
     this.setState({ date: date1, currentGraph: "main" });
   }
-  selectDevice(currentDevice) {
-    this.props.fetchData(
-      this.state.date,
-      currentDevice,
-      this.state.organisation
-    );
-    this.setState({
-      currentDevice: currentDevice,
 
-      currentGraph: "main"
-    });
-  }
   getDataVal(Data) {
     var good = {};
     var bad = {};
@@ -140,8 +151,6 @@ class App extends Component {
         UserDelightCount = UserDelightCount + 1;
         for (var j = 0; j < 24; j++) {
           if (Number(p.lastTimestamp.slice(16, 18)) === j) {
-            console.log(p.lastTimestamp.slice(16, 18));
-
             if (!good[j]) {
               good[j] = 1;
             } else {
@@ -224,10 +233,10 @@ class App extends Component {
         }
       }
     });
-    console.log(goodCount, badCount, avgCount);
-    var percentgood = Math.round((goodCount / total) * 100);
-    var percentbad = Math.round((badCount / total) * 100);
-    var percentaverage = Math.round((avgCount / total) * 100);
+    var percentgood = Math.round((goodCount / total) * 100) || 0;
+    var percentbad = Math.round((badCount / total) * 100) || 0;
+    var percentaverage = Math.round((avgCount / total) * 100) || 0;
+    console.log(percentgood, percentaverage, percentbad);
     this.setState({
       timeavg: average,
       timebad: bad,
@@ -298,34 +307,8 @@ class App extends Component {
       });
   }
   render() {
-    console.log(this.state.organisation);
     var datafoot = {
-      labels: [
-        "12AM-1AM",
-        "1AM-2AM",
-        "2AM-3AM",
-        "3AM-4AM",
-        "4AM-5AM",
-        "5AM-6AM",
-        "6AM-7AM",
-        "7AM-8AM",
-        "8AM-9AM",
-        "9AM-10AM",
-        "10AM-11AM",
-        "11AM-12PM",
-        "12PM-1PM",
-        "1PM-2PM",
-        "2PM-3PM",
-        "3PM-4PM",
-        "4PM-5PM",
-        "5PM-6PM",
-        "6PM-7PM",
-        "7PM-8PM",
-        "8PM-9PM",
-        "9PM-10PM",
-        "10PM-11PM",
-        "11PM-12AM"
-      ],
+      labels: this.state.labels,
       datasets: [
         {
           label: "FootFall",
@@ -364,32 +347,7 @@ class App extends Component {
       ]
     };
     var userdelight = {
-      labels: [
-        "12AM-1AM",
-        "1AM-2AM",
-        "2AM-3AM",
-        "3AM-4AM",
-        "4AM-5AM",
-        "5AM-6AM",
-        "6AM-7AM",
-        "7AM-8AM",
-        "8AM-9AM",
-        "9AM-10AM",
-        "10AM-11AM",
-        "11AM-12PM",
-        "12PM-1PM",
-        "1PM-2PM",
-        "2PM-3PM",
-        "3PM-4PM",
-        "4PM-5PM",
-        "5PM-6PM",
-        "6PM-7PM",
-        "7PM-8PM",
-        "8PM-9PM",
-        "9PM-10PM",
-        "10PM-11PM",
-        "11PM-12AM"
-      ],
+      labels: this.state.labels,
       datasets: [
         {
           label: "userdelight",
@@ -398,6 +356,7 @@ class App extends Component {
           borderWidth: 1,
           hoverBackgroundColor: "rgba(255,99,132,0.4)",
           hoverBorderColor: "rgba(255,99,132,1)",
+
           data: [
             this.state.UserDelight[1],
             this.state.UserDelight[2],
@@ -428,32 +387,7 @@ class App extends Component {
       ]
     };
     var datagraph = {
-      labels: [
-        "12AM-1AM",
-        "1AM-2AM",
-        "2AM-3AM",
-        "3AM-4AM",
-        "4AM-5AM",
-        "5AM-6AM",
-        "6AM-7AM",
-        "7AM-8AM",
-        "8AM-9AM",
-        "9AM-10AM",
-        "10AM-11AM",
-        "11AM-12PM",
-        "12PM-1PM",
-        "1PM-2PM",
-        "2PM-3PM",
-        "3PM-4PM",
-        "4PM-5PM",
-        "5PM-6PM",
-        "6PM-7PM",
-        "7PM-8PM",
-        "8PM-9PM",
-        "9PM-10PM",
-        "10PM-11PM",
-        "11PM-12AM"
-      ],
+      labels: this.state.labels,
       datasets: [
         {
           label: "Good",
@@ -463,6 +397,7 @@ class App extends Component {
           hoverBackgroundColor: "rgba(10, 167, 69, 0.4)",
           hoverBorderColor: "rgba(10,167,69,1)",
           data: [
+            this.state.timegood[0],
             this.state.timegood[1],
             this.state.timegood[2],
             this.state.timegood[3],
@@ -485,8 +420,7 @@ class App extends Component {
             this.state.timegood[20],
             this.state.timegood[21],
             this.state.timegood[22],
-            this.state.timegood[23],
-            this.state.timegood[24]
+            this.state.timegood[23]
           ]
         },
         {
@@ -497,6 +431,7 @@ class App extends Component {
           hoverBackgroundColor: "rgba(255,99,132,0.4)",
           hoverBorderColor: "rgba(255,99,132,1)",
           data: [
+            this.state.timebad[0],
             this.state.timebad[1],
             this.state.timebad[2],
             this.state.timebad[3],
@@ -519,8 +454,7 @@ class App extends Component {
             this.state.timebad[20],
             this.state.timebad[21],
             this.state.timebad[22],
-            this.state.timebad[23],
-            this.state.timebad[24]
+            this.state.timebad[23]
           ]
         },
         {
@@ -531,6 +465,7 @@ class App extends Component {
           hoverBackgroundColor: "rgba(255, 193, 7, 0.4)",
           hoverBorderColor: "rgba(255,193,7,1)",
           data: [
+            this.state.timeavg[0],
             this.state.timeavg[1],
             this.state.timeavg[2],
             this.state.timeavg[3],
@@ -553,142 +488,120 @@ class App extends Component {
             this.state.timeavg[20],
             this.state.timeavg[21],
             this.state.timeavg[22],
-            this.state.timeavg[23],
-            this.state.timeavg[24]
+            this.state.timeavg[23]
           ]
         }
       ]
     };
-    var dataRound = {
-      labels: ["Good", "Average", "Bad"],
-      datasets: [
-        {
-          data: [
-            this.state.percentgood,
-            this.state.percentaverage,
-            this.state.percentbad
-          ],
-          backgroundColor: [
-            "rgba(10, 167, 69, 0.6)",
-            "rgba(255, 193, 7, 0.6)",
-            "rgba(205,92,92, 0.6)"
-          ]
-        }
-      ]
-    };
+
     return (
-      <div style={{ margin: "auto" }}>
-        {this.state.fetch ? (
-          <div
-            style={{ margin: "auto", textAlign: "center", marginTop: "300px" }}
-          >
-            <Spin size="large" />
-          </div>
-        ) : (
-          <div>
-            <div className="header">
-              <h2 style={{ margin: "auto", textAlign: "center" }}>
-                Toilet Monitoring System
-              </h2>
-              <Button type="primary" onClick={this.signOut.bind(this)}>
-                LogOut
-              </Button>
+      <div style={{ margin: "auto", height: "100vh" }}>
+        <div>
+          <div className="header">
+            <h2 style={{ margin: "auto", textAlign: "center" }}>
+              Toilet Monitoring System
+            </h2>
+            <Button type="primary" onClick={this.signOut.bind(this)}>
+              LogOut
+            </Button>
 
-              <Modal
-                title="Report"
-                visible={this.state.modalView}
-                onOk={this.okModal.bind(this)}
-                onCancel={this.cancelModal.bind(this)}
+            <Modal
+              title="Report"
+              visible={this.state.modalView}
+              onOk={this.okModal.bind(this)}
+              onCancel={this.cancelModal.bind(this)}
+            >
+              <RangePicker onChange={this.rangePicker.bind(this)} />
+              <Select
+                style={{ width: 200, margin: "auto" }}
+                onChange={this.selectDeviceforReport.bind(this)}
               >
-                <RangePicker onChange={this.rangePicker.bind(this)} />
-                <Select
-                  style={{ width: 200, margin: "auto" }}
-                  onChange={this.selectDeviceforReport.bind(this)}
-                >
-                  {this.props.fetch.map(o => (
-                    <Option value={o} key={o}>
-                      {o}
-                    </Option>
-                  ))}
-                </Select>
-              </Modal>
-            </div>
-            <div className="content">
-              <div className="head2">
-                <Card className="content1 deviceName">
-                  <h5>Device Name:</h5>
-                  <h3>{this.state.currentDevice}</h3>
-                </Card>
-                <Card
-                  className="content1"
-                  onClick={this.UserDelightClick.bind(this)}
-                >
-                  <h5>UserDelight</h5>
-                  <h2>{this.state.UserDelightCount}</h2>
-                </Card>
-                <Card
-                  className="content1"
-                  onClick={this.footFallClick.bind(this)}
-                >
-                  <h5>FootFall:</h5>
-                  <h2>{this.state.total}</h2>
-                </Card>
-              </div>
-
-              <div className="body">
-                <div className="graph">
-                  <Bar
-                    data={
-                      this.state.currentGraph === "main"
-                        ? datagraph
-                        : this.state.currentGraph === "foot"
-                          ? datafoot
-                          : userdelight
-                    }
-                    height={480}
-                    width={1300}
-                    options={{ maintainAspectRatio: false, responsive: true }}
-                  />
-                </div>
-
-                <div className="table">
-                  <div className="selector">
-                    <DatePicker
-                      size="small"
-                      style={{ width: "60%", margin: "auto" }}
-                      onChange={this.dateChange.bind(this)}
-                      defaultValue={moment(new Date(), "YYYY-MM-DD")}
-                      format={"YYYY-MM-DD"}
-                    />
-                    <Select
-                      placeholder="Select"
-                      style={{ width: 200, margin: "auto" }}
-                      onChange={this.selectDevice.bind(this)}
-                    >
-                      {this.props.fetch.map(o => (
-                        <Option value={o} key={o}>
-                          {o}
-                        </Option>
-                      ))}
-                    </Select>
-
-                    <Button
-                      type="primary"
-                      style={{ width: "30%", margin: "auto" }}
-                      onClick={this.showModal.bind(this)}
-                    >
-                      Report
-                    </Button>
-                  </div>
-                  <Card className="Doughnut">
-                    <Doughnut data={dataRound} />
-                  </Card>
-                </div>
-              </div>
-            </div>
-            <div className="footer" />
+                {this.props.fetch.map(o => (
+                  <Option value={o} key={o}>
+                    {o}
+                  </Option>
+                ))}
+              </Select>
+            </Modal>
           </div>
-        )}
+          <div className="content">
+            <div className="head2">
+              <div className="content1 ">
+                <h5>Device Name:</h5>
+                <h4>{this.state.currentDevice}</h4>
+              </div>
+              <div>
+                <DatePicker
+                  size="small"
+                  onChange={this.dateChange.bind(this)}
+                  defaultValue={moment(new Date(), "YYYY-MM-DD")}
+                  format={"YYYY-MM-DD"}
+                />
+              </div>
+              <div
+                className="content1"
+                onClick={this.UserDelightClick.bind(this)}
+              >
+                <h5>UserDelight</h5>
+                <h3>{this.state.UserDelightCount}</h3>
+              </div>
+              <div className="content1" onClick={this.footFallClick.bind(this)}>
+                <h5>FootFall:</h5>
+                <h3>{this.state.total}</h3>
+              </div>
+            </div>
+            <div className="barStyle">
+              <span
+                className="goodSpan"
+                style={{
+                  width: this.state.percentgood + "%",
+                  transition: "width 1s"
+                }}
+              >
+                {this.state.goodCount}
+              </span>
+              <span
+                className="avgSpan"
+                style={{
+                  width: this.state.percentaverage + "%",
+                  transition: "width 1s"
+                }}
+              >
+                {this.state.averageCount}
+              </span>
+              <span
+                className="badSpan"
+                style={{
+                  width: this.state.percentbad + "%",
+                  transition: "width 1s"
+                }}
+              >
+                {this.state.badCount}
+              </span>
+            </div>
+            <div className="body">
+              <DeviceTable
+                getdata={this.getTableData.bind(this)}
+                style={{ width: "50%" }}
+              />
+              <div className="graph">
+                <Bar
+                  data={
+                    this.state.currentGraph === "main"
+                      ? datagraph
+                      : this.state.currentGraph === "foot"
+                        ? datafoot
+                        : userdelight
+                  }
+                  height={480}
+                  width={1300}
+                  options={{ maintainAspectRatio: false, responsive: true }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="footer" />
+        </div>
       </div>
     );
   }
