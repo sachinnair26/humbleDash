@@ -81,7 +81,10 @@ export default class DeviceTable extends Component {
     return (
       <div className="table">
         <div>
-          <input placeholder="search " onChange={this.onSearch.bind(this)} />
+          <span>
+
+         Search: <input placeholder="search " onChange={this.onSearch.bind(this)} />
+          </span>
           <Table
             bordered
             size="small"

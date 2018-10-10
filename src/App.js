@@ -524,7 +524,24 @@ class App extends Component {
           </Modal>
         </div>
         <div className="content">
-          <div className="head2">
+        <div className="date-table">
+              <div
+        className="datepicker"
+              >
+
+              <DatePicker
+              size="small"
+              onChange={this.dateChange.bind(this)}
+              defaultValue={moment(new Date(), "YYYY-MM-DD")}
+              format={"YYYY-MM-DD"}
+              style={{width:'100%'}}
+              />
+              </div>
+              <DeviceTable getdata={this.getTableData.bind(this)} />
+            </div>
+
+        <div className='other-content'>
+        <div className="head2">
             <div className="content1 ">
               <h5>Device Name:</h5>
               <h4>{this.state.currentDevice}</h4>
@@ -573,20 +590,7 @@ class App extends Component {
           </div>
           <hr style={{ width: "100%" }} />
           <div className="body-graph-main">
-            <div className="date-table">
-              <DatePicker
-                size="small"
-                onChange={this.dateChange.bind(this)}
-                defaultValue={moment(new Date(), "YYYY-MM-DD")}
-                format={"YYYY-MM-DD"}
-                style={{
-                  width: "80%",
-                  margin: "auto"
-                }}
-              />
-              <DeviceTable getdata={this.getTableData.bind(this)} />
-            </div>
-
+           
             <div className="graph">
               <Bar
                 data={
@@ -600,6 +604,8 @@ class App extends Component {
               />
             </div>
           </div>
+        </div>
+          
         </div>
       </div>
     );
