@@ -13,30 +13,62 @@
   padding: 8px;
 }
 .other-content{
-  width:70%;
+  width:90%;
   display: flex;
   padding:3px;
   flex-direction: column;
 }
 .body-graph-main {
   display: flex;
-  width: 95%;
+  width: 99%;
   background-color: #fff;
   margin: auto;
-  padding: 5px;
+  padding: 1%;
   flex-wrap: wrap;
   border-radius: 20px;
 }
 .graph {
   height: 70vh;
-  width: 90%;
+  width: 99%;
   margin: auto;
   background-color: #fff;
 }
+.left-content{
+  display: flex;
+  flex-direction: column;
+  
+}
+.smileys{
+  width: 400px;
+  height: 150px;
+  display: flex;
+  justify-content: column;
+}
+
+.goodSmiley{
+  width: 75%;
+  border: 1px solid #333;
+  height: 84px;
+  border-radius:160px 160px 160px 160px;
+  
+  background-color: #5fbd0a;
+display: flex;
+
+}
+.number-smiley{
+  font-size:50px;
+  align-self: center;
+  margin:auto;
+  font-weight: 900;
+  color: #ebebeb;
+}
+
 
 .date-table {
   margin:auto;
-  width: 30%;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
   height:auto;
   padding:10px;
   margin-top:4px;
@@ -53,6 +85,9 @@
   display: flex;
   justify-content: space-around;
   width: 95%;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 30px;
   flex-wrap: wrap;
   padding: 1%;
 }

@@ -23,6 +23,10 @@ import fetchOrganisationAction from "./fetchOrganisationAction";
 import { Bar, Doughnut } from "react-chartjs-2";
 import createHistory from "history/createBrowserHistory";
 import DeviceTable from "./Table";
+import b from "./Good.png";
+import a from "./Bad.png";
+import c from "./Avg.png";
+
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const history = createHistory({ forceRefresh: true });
@@ -90,7 +94,7 @@ class App extends Component {
   }
   getTableData(deviceName) {
     console.log(deviceName);
-    this.setState({ currentDevice: deviceName });
+    this.setState({ currentDevice: deviceName ,currentGraph: "main"});
     this.props.fetchData(this.state.date, deviceName, this.state.organisation);
   }
   okModal() {
@@ -495,7 +499,7 @@ class App extends Component {
     };
 
     return (
-      <div style={{ margin: "auto", height: "100vh" }}>
+      <div style={{ margin: "auto", height: "100vh" }} >
         <div className="header">
           <h2 style={{ margin: "auto", textAlign: "center" }}>
             Toilet Monitoring System
@@ -523,89 +527,96 @@ class App extends Component {
             </Select>
           </Modal>
         </div>
-        <div className="content">
-        <div className="date-table">
-              <div
-        className="datepicker"
-              >
+        <div className="content" >
+          <div className="left-content">
+            <div className="smileys">
+              
+              <img src={b} width={40} height={40} />
 
-              <DatePicker
-              size="small"
-              onChange={this.dateChange.bind(this)}
-              defaultValue={moment(new Date(), "YYYY-MM-DD")}
-              format={"YYYY-MM-DD"}
-              style={{width:'100%'}}
-              />
+              <img src={a} width={40} height={40} />
+              <img src={c} width={40} height={40} />
+              <div>{this.state.goodCount}</div>
+            </div>
+
+            <div className="date-table">
+              <div className="datepicker">
+                <DatePicker
+                  size="small"
+                  onChange={this.dateChange.bind(this)}
+                  defaultValue={moment(new Date(), "YYYY-MM-DD")}
+                  format={"YYYY-MM-DD"}
+                  style={{ width: "100%" }}
+                />
               </div>
               <DeviceTable getdata={this.getTableData.bind(this)} />
             </div>
+            <div />
+          </div>
 
-        <div className='other-content'>
-        <div className="head2">
-            <div className="content1 ">
-              <h5>Device Name:</h5>
-              <h4>{this.state.currentDevice}</h4>
-            </div>
+          <div className="other-content">
+            <div className="head2">
+              <div className="content1 ">
+                <h5>Device Name:</h5>
+                <h4>{this.state.currentDevice}</h4>
+              </div>
 
-            <div
-              className="content1"
-              onClick={this.UserDelightClick.bind(this)}
-            >
-              <h5>UserDelight</h5>
-              <h3>{this.state.UserDelightCount}</h3>
+              <div
+                className="content1"
+                onClick={this.UserDelightClick.bind(this)}
+              >
+                <h5>UserDelight</h5>
+                <h3>{this.state.UserDelightCount}</h3>
+              </div>
+              <div className="content1" onClick={this.footFallClick.bind(this)}>
+                <h5>FootFall:</h5>
+                <h3>{this.state.total}</h3>
+              </div>
             </div>
-            <div className="content1" onClick={this.footFallClick.bind(this)}>
-              <h5>FootFall:</h5>
-              <h3>{this.state.total}</h3>
+            <div className="barStyle">
+              <span
+                className="goodSpan"
+                style={{
+                  width: this.state.percentgood + "%",
+                  transition: "width 1s"
+                }}
+              >
+                {this.state.goodCount}
+              </span>
+              <span
+                className="avgSpan"
+                style={{
+                  width: this.state.percentaverage + "%",
+                  transition: "width 1s"
+                }}
+              >
+                {this.state.averageCount}
+              </span>
+              <span
+                className="badSpan"
+                style={{
+                  width: this.state.percentbad + "%",
+                  transition: "width 1s"
+                }}
+              >
+                {this.state.badCount}
+              </span>
+            </div>
+            <hr style={{ width: "100%" }} />
+            <div className="body-graph-main">
+              <div className="graph">
+                <Bar
+                  data={
+                    this.state.currentGraph === "main"
+                      ? datagraph
+                      : this.state.currentGraph === "foot"
+                        ? datafoot
+                        : userdelight
+                  }
+                  options={{ maintainAspectRatio: false, responsive: true }}
+                />
+              </div>
             </div>
           </div>
-          <div className="barStyle">
-            <span
-              className="goodSpan"
-              style={{
-                width: this.state.percentgood + "%",
-                transition: "width 1s"
-              }}
-            >
-              {this.state.goodCount}
-            </span>
-            <span
-              className="avgSpan"
-              style={{
-                width: this.state.percentaverage + "%",
-                transition: "width 1s"
-              }}
-            >
-              {this.state.averageCount}
-            </span>
-            <span
-              className="badSpan"
-              style={{
-                width: this.state.percentbad + "%",
-                transition: "width 1s"
-              }}
-            >
-              {this.state.badCount}
-            </span>
-          </div>
-          <hr style={{ width: "100%" }} />
-          <div className="body-graph-main">
-           
-            <div className="graph">
-              <Bar
-                data={
-                  this.state.currentGraph === "main"
-                    ? datagraph
-                    : this.state.currentGraph === "foot"
-                      ? datafoot
-                      : userdelight
-                }
-                options={{ maintainAspectRatio: false, responsive: true }}
-              />
-            </div>
-          </div>
-        </div>
-          
         </div>
       </div>
     );
