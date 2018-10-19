@@ -12,7 +12,7 @@ import {
   Progress,
   Spin
 } from "antd";
-import { auth } from "./config";
+import { auth, db } from "./config";
 import moment from "moment";
 import { connect } from "react-redux";
 import fetchDevice from "./fetchDeviceAction";
@@ -35,6 +35,8 @@ class App extends Component {
     super(props);
 
     this.state = {
+      spin: true,
+      uid: "",
       dateList: [],
       UserDelightCount: "",
       date: new Date().toDateString("YYYY-MM-DD "),
@@ -78,13 +80,31 @@ class App extends Component {
       ],
       modalView: false,
       Data: {},
-      organisation: "AIMSKOCHI",
+      organisation: "",
       goodCount: "",
       badCount: "",
       averageCount: ""
     };
   }
-
+  componentDidMount() {
+    var user = auth.currentUser;
+    if (user == null) {
+      this.props.history.push("/");
+    } else {
+      this.setState({
+        uid: user.uid
+      });
+    }
+    var that = this;
+    db.ref("deviceDetail")
+      .child(user.uid)
+      .on("value", function(data) {
+        data.forEach(z => {
+          that.setState({ organisation: z.key });
+        });
+        that.setState({ spin: false });
+      });
+  }
   componentWillReceiveProps(props) {
     this.getDataVal(props.Data);
   }
@@ -499,143 +519,155 @@ class App extends Component {
     };
 
     return (
-      <div style={{ margin: "auto", height: "100vh" }}>
-        <div className="header">
-          <h2 style={{ margin: "auto", textAlign: "center" }}>
-            Toilet Monitoring System
-          </h2>
-          <Button type="primary" onClick={this.signOut.bind(this)}>
-            LogOut
-          </Button>
+      <div>
+        {this.state.spin ? (
+          <Spin />
+        ) : (
+          <div style={{ margin: "auto", height: "100vh" }}>
+            <div className="header">
+              <h2 style={{ margin: "auto", textAlign: "center" }}>
+                Toilet Monitoring System
+              </h2>
+              <Button type="primary" onClick={this.signOut.bind(this)}>
+                LogOut
+              </Button>
 
-          <Modal
-            title="Report"
-            visible={this.state.modalView}
-            onOk={this.okModal.bind(this)}
-            onCancel={this.cancelModal.bind(this)}
-          >
-            <RangePicker onChange={this.rangePicker.bind(this)} />
-            <Select
-              style={{ width: 200, margin: "auto" }}
-              onChange={this.selectDeviceforReport.bind(this)}
-            >
-              {this.props.fetch.map(o => (
-                <Option value={o} key={o}>
-                  {o}
-                </Option>
-              ))}
-            </Select>
-          </Modal>
-        </div>
-        <div className="content">
-          <div className="left-content">
-            <div className="smileys">
-              <div
-                className="goodSmiley"
-                style={{
-                  width: this.state.percentgood + "%"
-                }}
+              <Modal
+                title="Report"
+                visible={this.state.modalView}
+                onOk={this.okModal.bind(this)}
+                onCancel={this.cancelModal.bind(this)}
               >
-                <img src={b} width={40} height={40} />
+                <RangePicker onChange={this.rangePicker.bind(this)} />
+                <Select
+                  style={{ width: 200, margin: "auto" }}
+                  onChange={this.selectDeviceforReport.bind(this)}
+                >
+                  {this.props.fetch.map(o => (
+                    <Option value={o} key={o}>
+                      {o}
+                    </Option>
+                  ))}
+                </Select>
+              </Modal>
+            </div>
+            <div className="content">
+              <div className="left-content">
+                <div className="smileys">
+                  <div
+                    className="goodSmiley"
+                    style={{
+                      width: this.state.percentgood + "%"
+                    }}
+                  >
+                    <img src={b} width={40} height={40} />
+                  </div>
+                  <div
+                    className="avgSmiley"
+                    style={{
+                      width: this.state.percentaverage + "%"
+                    }}
+                  >
+                    <img src={c} width={40} height={40} />
+                  </div>
+                  <div
+                    className="badSmiley"
+                    style={{
+                      width: this.state.percentbad + "%"
+                    }}
+                  >
+                    <img src={a} width={40} height={40} />
+                  </div>
+                </div>
+
+                <div className="date-table">
+                  <div className="datepicker">
+                    <DatePicker
+                      size="small"
+                      onChange={this.dateChange.bind(this)}
+                      defaultValue={moment(new Date(), "YYYY-MM-DD")}
+                      format={"YYYY-MM-DD"}
+                      style={{ width: "100%" }}
+                    />
+                  </div>
+                  <DeviceTable
+                    getdata={this.getTableData.bind(this)}
+                    organisation={this.state.organisation}
+                  />
+                </div>
+                <div />
               </div>
-              <div
-                className="avgSmiley"
-                style={{
-                  width: this.state.percentaverage + "%"
-                }}
-              >
-                <img src={c} width={40} height={40} />
-              </div>
-              <div
-                className="badSmiley"
-                style={{
-                  width: this.state.percentbad + "%"
-                }}
-              >
-                <img src={a} width={40} height={40} />
+
+              <div className="other-content">
+                <div className="head2">
+                  <div className="content1 ">
+                    <h5>Device Name:</h5>
+                    <h4>{this.state.currentDevice}</h4>
+                  </div>
+
+                  <div
+                    className="content1"
+                    onClick={this.UserDelightClick.bind(this)}
+                  >
+                    <h5>UserDelight</h5>
+                    <h3>{this.state.UserDelightCount}</h3>
+                  </div>
+                  <div
+                    className="content1"
+                    onClick={this.footFallClick.bind(this)}
+                  >
+                    <h5>FootFall:</h5>
+                    <h3>{this.state.total}</h3>
+                  </div>
+                </div>
+                <div className="barStyle">
+                  <span
+                    className="goodSpan"
+                    style={{
+                      width: this.state.percentgood + "%",
+                      transition: "width 1s"
+                    }}
+                  >
+                    {this.state.goodCount}
+                  </span>
+                  <span
+                    className="avgSpan"
+                    style={{
+                      width: this.state.percentaverage + "%",
+                      transition: "width 1s"
+                    }}
+                  >
+                    {this.state.averageCount}
+                  </span>
+                  <span
+                    className="badSpan"
+                    style={{
+                      width: this.state.percentbad + "%",
+                      transition: "width 1s"
+                    }}
+                  >
+                    {this.state.badCount}
+                  </span>
+                </div>
+                <hr style={{ width: "100%" }} />
+                <div className="body-graph-main">
+                  <div className="graph">
+                    <Bar
+                      data={
+                        this.state.currentGraph === "main"
+                          ? datagraph
+                          : this.state.currentGraph === "foot"
+                            ? datafoot
+                            : userdelight
+                      }
+                      options={{ maintainAspectRatio: false, responsive: true }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="date-table">
-              <div className="datepicker">
-                <DatePicker
-                  size="small"
-                  onChange={this.dateChange.bind(this)}
-                  defaultValue={moment(new Date(), "YYYY-MM-DD")}
-                  format={"YYYY-MM-DD"}
-                  style={{ width: "100%" }}
-                />
-              </div>
-              <DeviceTable getdata={this.getTableData.bind(this)} />
-            </div>
-            <div />
           </div>
-
-          <div className="other-content">
-            <div className="head2">
-              <div className="content1 ">
-                <h5>Device Name:</h5>
-                <h4>{this.state.currentDevice}</h4>
-              </div>
-
-              <div
-                className="content1"
-                onClick={this.UserDelightClick.bind(this)}
-              >
-                <h5>UserDelight</h5>
-                <h3>{this.state.UserDelightCount}</h3>
-              </div>
-              <div className="content1" onClick={this.footFallClick.bind(this)}>
-                <h5>FootFall:</h5>
-                <h3>{this.state.total}</h3>
-              </div>
-            </div>
-            <div className="barStyle">
-              <span
-                className="goodSpan"
-                style={{
-                  width: this.state.percentgood + "%",
-                  transition: "width 1s"
-                }}
-              >
-                {this.state.goodCount}
-              </span>
-              <span
-                className="avgSpan"
-                style={{
-                  width: this.state.percentaverage + "%",
-                  transition: "width 1s"
-                }}
-              >
-                {this.state.averageCount}
-              </span>
-              <span
-                className="badSpan"
-                style={{
-                  width: this.state.percentbad + "%",
-                  transition: "width 1s"
-                }}
-              >
-                {this.state.badCount}
-              </span>
-            </div>
-            <hr style={{ width: "100%" }} />
-            <div className="body-graph-main">
-              <div className="graph">
-                <Bar
-                  data={
-                    this.state.currentGraph === "main"
-                      ? datagraph
-                      : this.state.currentGraph === "foot"
-                        ? datafoot
-                        : userdelight
-                  }
-                  options={{ maintainAspectRatio: false, responsive: true }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     );
   }

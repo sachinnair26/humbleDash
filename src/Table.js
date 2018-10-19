@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Table, Spin } from "antd";
-import { db } from "./config";
+import { db, auth } from "./config";
 import "./DeviceTable.css";
+import Login from "./Login";
 export default class DeviceTable extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +47,8 @@ export default class DeviceTable extends Component {
   }
 
   componentDidMount() {
+    console.log("herein");
+    var organisation = this.props.organisation;
     this.setState({ data1: [] });
     var that = this;
     var footfall = {};
@@ -53,7 +56,7 @@ export default class DeviceTable extends Component {
     var id = 0;
     var userDelight = {};
     db.ref("new_data")
-      .child("AIMSKOCHI")
+      .child(organisation)
       .on("value", function(data) {
         data.forEach(a => {
           id = id + 1;
@@ -76,21 +79,24 @@ export default class DeviceTable extends Component {
             userDelight: userdelight
           });
         });
-        db.ref("deviceDetails")
-          .child("AIMSKOCHI")
-          .on("value", function(data) {
-            data.forEach(h => {
-              data1.forEach(l => {
-                if (l.devicename === h.key) {
-                  l["location"] = h.val().Location;
-                }
-              });
-            });
-            that.setState({ data1 });
-          });
-        console.log(data1);
+        var user = auth.currentUser;
 
-        that.setState({ footfall, userDelight, spin: false });
+        db.ref("deviceDetail")
+          .child(user.uid)
+          .child(organisation)
+          .on("value", function(data) {
+            console.log(data.val());
+
+            data1.forEach(l => {
+              if (l.devicename === data.val().devicename) {
+                l["location"] = data.val().location;
+              }
+            });
+
+            that.setState({ data1, spin: false });
+          });
+
+        that.setState({ footfall, userDelight });
       });
   }
   onSearch(e) {
@@ -123,22 +129,6 @@ export default class DeviceTable extends Component {
             dataSource={this.state.data1}
             loading={this.state.spin}
           />
-          {/* <table>
-            <tbody> 
-              <tr>
-                <th>DeviceName</th>
-                <th>Footfall</th>
-                <th>UserDelight</th>
-              </tr>
-              {this.state.data1.map(e => (
-                <tr key={e.key}>
-                  <td>{e.devicename}</td>
-                  <td>{e.footfall}</td>
-                  <td>{e.userDelight} </td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
         </div>
       </div>
     );
