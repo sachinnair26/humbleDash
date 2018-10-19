@@ -94,7 +94,7 @@ class App extends Component {
   }
   getTableData(deviceName) {
     console.log(deviceName);
-    this.setState({ currentDevice: deviceName ,currentGraph: "main"});
+    this.setState({ currentDevice: deviceName, currentGraph: "main" });
     this.props.fetchData(this.state.date, deviceName, this.state.organisation);
   }
   okModal() {
@@ -499,7 +499,7 @@ class App extends Component {
     };
 
     return (
-      <div style={{ margin: "auto", height: "100vh" }} >
+      <div style={{ margin: "auto", height: "100vh" }}>
         <div className="header">
           <h2 style={{ margin: "auto", textAlign: "center" }}>
             Toilet Monitoring System
@@ -527,15 +527,33 @@ class App extends Component {
             </Select>
           </Modal>
         </div>
-        <div className="content" >
+        <div className="content">
           <div className="left-content">
             <div className="smileys">
-              
-              <img src={b} width={40} height={40} />
-
-              <img src={a} width={40} height={40} />
-              <img src={c} width={40} height={40} />
-              <div>{this.state.goodCount}</div>
+              <div
+                className="goodSmiley"
+                style={{
+                  width: this.state.percentgood + "%"
+                }}
+              >
+                <img src={b} width={40} height={40} />
+              </div>
+              <div
+                className="avgSmiley"
+                style={{
+                  width: this.state.percentaverage + "%"
+                }}
+              >
+                <img src={c} width={40} height={40} />
+              </div>
+              <div
+                className="badSmiley"
+                style={{
+                  width: this.state.percentbad + "%"
+                }}
+              >
+                <img src={a} width={40} height={40} />
+              </div>
             </div>
 
             <div className="date-table">

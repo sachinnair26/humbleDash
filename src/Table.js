@@ -33,12 +33,20 @@ export default class DeviceTable extends Component {
           key: "userDelight",
           className: "userdeilght",
           sorter: (a, b) => a.userDelight - b.userDelight
+        },
+        {
+          title: "Location",
+          dataIndex: "location",
+          key: "location",
+          className: "userdeilght",
+          sorter: (a, b) => a.location - b.location
         }
       ]
     };
   }
 
   componentDidMount() {
+    this.setState({ data1: [] });
     var that = this;
     var footfall = {};
     var data1 = [];
@@ -68,8 +76,21 @@ export default class DeviceTable extends Component {
             userDelight: userdelight
           });
         });
+        db.ref("deviceDetails")
+          .child("AIMSKOCHI")
+          .on("value", function(data) {
+            data.forEach(h => {
+              data1.forEach(l => {
+                if (l.devicename === h.key) {
+                  l["location"] = h.val().Location;
+                }
+              });
+            });
+            that.setState({ data1 });
+          });
+        console.log(data1);
 
-        that.setState({ footfall, userDelight, spin: false, data1 });
+        that.setState({ footfall, userDelight, spin: false });
       });
   }
   onSearch(e) {
@@ -82,8 +103,8 @@ export default class DeviceTable extends Component {
       <div className="table">
         <div>
           <span>
-
-         Search: <input placeholder="search " onChange={this.onSearch.bind(this)} />
+            Search:{" "}
+            <input placeholder="search " onChange={this.onSearch.bind(this)} />
           </span>
           <Table
             bordered

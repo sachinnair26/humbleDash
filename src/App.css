@@ -12,10 +12,10 @@
   display: flex;
   padding: 8px;
 }
-.other-content{
-  width:90%;
+.other-content {
+  width: 75%;
   display: flex;
-  padding:3px;
+  padding: 3px;
   flex-direction: column;
 }
 .body-graph-main {
@@ -33,50 +33,45 @@
   margin: auto;
   background-color: #fff;
 }
-.left-content{
+.left-content {
   display: flex;
   flex-direction: column;
-  
 }
-.smileys{
-  width: 400px;
+.smileys {
   height: 150px;
   display: flex;
-  justify-content: column;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.goodSmiley{
-  width: 75%;
-  border: 1px solid #333;
-  height: 84px;
-  border-radius:160px 160px 160px 160px;
-  
-  background-color: #5fbd0a;
-display: flex;
-
+.goodSmiley {
+  background-color: #00b55c;
+  border-radius: 30px;
+  transition: width 1s;
 }
-.number-smiley{
-  font-size:50px;
-  align-self: center;
-  margin:auto;
-  font-weight: 900;
-  color: #ebebeb;
+.avgSmiley {
+  background-color: #ecf200;
+  border-radius: 30px;
+  transition: width 1s;
 }
-
-
+.badSmiley {
+  background-color: #fe001e;
+  border-radius: 30px;
+  transition: width 1s;
+}
 .date-table {
-  margin:auto;
+  margin: auto;
   display: flex;
   width: 100%;
+  max-height: 70vh;
   flex-direction: column;
-  height:auto;
-  padding:10px;
-  margin-top:4px;
+  height: auto;
+  padding: 10px;
+  margin-top: 4px;
   background-color: #fff;
   border-radius: 20px;
-  
 }
-.datepicker{
+.datepicker {
   margin: auto;
   width: 80%;
 }
