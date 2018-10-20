@@ -1,5 +1,5 @@
 .login-main {
-  justify-content: flex-end;
+  justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
   display: flex;
@@ -10,12 +10,21 @@
   background-color: teal;
   width: 40%;
   padding: 3%;
+  min-width: 360px;
+}
+.login-main h1 {
+  font-weight: 900;
+  font-size: 30px;
 }
 .login-second {
   width: 60%;
-  height: 40%;
+  height: 20%;
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+.logo-login {
+  width: 60%;
+  height: 40%;
 }

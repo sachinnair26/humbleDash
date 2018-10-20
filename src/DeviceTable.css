@@ -8,13 +8,15 @@
 .table input {
   border: 1px solid black;
   margin: auto;
+  display: flex;
   border-radius: 3px 3px 0px 0px;
-  width: 85%;
+  width: 90%;
 }
 
 .deviceName {
   padding: none;
   font-size: 12px;
+  display: none;
 }
 .footfall {
   padding: none;
@@ -22,7 +24,7 @@
 }
 .userdeilght {
   padding: none;
-  font-size:12px;
+  font-size: 12px;
 }
 .deviceName tr td {
   padding: 0px;

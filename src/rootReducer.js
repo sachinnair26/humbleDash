@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
-import fetchReducer from "./fetchReducer";
+import fetchDeviceReducer from "./fetchDeviceReducer";
 import ReportDataReducer from "./ReportDataReducer";
 import fetchDataReducer from "./fetchDataReducer";
-import fetchOrgDataReducer from "./fetchOrganisationReducer";
 const combineReducer = combineReducers({
-  fetch: fetchReducer,
+  fetchDevice: fetchDeviceReducer,
   report: ReportDataReducer,
-  Data: fetchDataReducer,
-  organisationData: fetchOrgDataReducer
+  Data: fetchDataReducer
 });
 export default combineReducer;

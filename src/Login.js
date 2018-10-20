@@ -5,6 +5,7 @@ import { auth } from "./config";
 import { withRouter } from "react-router-dom";
 import "./Login.css";
 import { connect } from "react-redux";
+import q from "../src/LoginLogo.png";
 import createHistory from "history/createBrowserHistory";
 
 const history = createHistory({ forceRefresh: true });
@@ -52,6 +53,9 @@ class Login extends React.Component {
     return (
       <div className="login-main">
         <h1>HumbleInnovations</h1>
+        <div className="logo-login">
+          <img src={q} style={{ width: "100%", height: "100%" }} />
+        </div>
         <div className="login-second">
           <Input
             placeholder="E-mail"

@@ -15,11 +15,16 @@ export default class DeviceTable extends Component {
       data1: [],
       columns: [
         {
+          title: "Location",
+          dataIndex: "location",
+          key: "location",
+          className: "userdeilght"
+        },
+        {
           title: "DeviceName",
           dataIndex: "devicename",
           key: "devicename",
-          className: "deviceName",
-          sorter: (a, b) => a.devicename.length - b.devicename.length
+          className: "deviceName"
         },
         {
           title: "FootFall",
@@ -34,30 +39,22 @@ export default class DeviceTable extends Component {
           key: "userDelight",
           className: "userdeilght",
           sorter: (a, b) => a.userDelight - b.userDelight
-        },
-        {
-          title: "Location",
-          dataIndex: "location",
-          key: "location",
-          className: "userdeilght",
-          sorter: (a, b) => a.location - b.location
         }
       ]
     };
   }
 
   componentDidMount() {
-    console.log("herein");
     var organisation = this.props.organisation;
     this.setState({ data1: [] });
     var that = this;
     var footfall = {};
-    var data1 = [];
     var id = 0;
     var userDelight = {};
     db.ref("new_data")
       .child(organisation)
       .on("value", function(data) {
+        var data1 = [];
         data.forEach(a => {
           id = id + 1;
           var count = 0;
@@ -93,7 +90,11 @@ export default class DeviceTable extends Component {
               }
             });
 
-            that.setState({ data1, spin: false });
+            that.setState({
+              data1,
+              spin: false
+            });
+            that.props.getdata(data1[0].devicename);
           });
 
         that.setState({ footfall, userDelight });
@@ -109,11 +110,9 @@ export default class DeviceTable extends Component {
       <div className="table">
         <div>
           <span>
-            Search:{" "}
-            <input placeholder="search " onChange={this.onSearch.bind(this)} />
+            <input placeholder="Search " onChange={this.onSearch.bind(this)} />
           </span>
           <Table
-            bordered
             size="small"
             pagination={{ pageSize: 50 }}
             style={{ overflow: "auto" }}

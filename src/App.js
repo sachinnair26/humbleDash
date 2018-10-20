@@ -15,11 +15,10 @@ import {
 import { auth, db } from "./config";
 import moment from "moment";
 import { connect } from "react-redux";
-import fetchDevice from "./fetchDeviceAction";
+import fetchDeviceAction from "./fetchDeviceAction";
 import fetchData from "./fetchDataAction";
 import { getReportData, getData } from "./fetchReportAction";
 import Chart from "chart.js";
-import fetchOrganisationAction from "./fetchOrganisationAction";
 import { Bar, Doughnut } from "react-chartjs-2";
 import createHistory from "history/createBrowserHistory";
 import DeviceTable from "./Table";
@@ -45,13 +44,13 @@ class App extends Component {
       percentgood: "0",
       percentaverage: "0",
       total: "",
-      currentDevice: this.props.fetch[0],
+      currentDevice: " ",
       footData: {},
       currentGraph: "main",
       UserDelight: {},
-      timeavg: {},
-      timegood: {},
-      timebad: {},
+      timeavg: [],
+      timegood: [],
+      timebad: [],
       labels: [
         "12AM-1AM",
         "1AM-2AM",
@@ -87,23 +86,24 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    var user = auth.currentUser;
-    if (user == null) {
-      this.props.history.push("/");
-    } else {
-      this.setState({
-        uid: user.uid
-      });
-    }
+    var user = "";
     var that = this;
-    db.ref("deviceDetail")
-      .child(user.uid)
-      .on("value", function(data) {
-        data.forEach(z => {
-          that.setState({ organisation: z.key });
-        });
-        that.setState({ spin: false });
-      });
+    auth.onAuthStateChanged(function(aut) {
+      if (aut == null) {
+        history.push("/");
+      } else {
+        that.setState({ uid: aut.uid });
+        db.ref("deviceDetail")
+          .child(aut.uid)
+          .on("value", function(data) {
+            data.forEach(z => {
+              that.setState({ organisation: z.key });
+              that.props.fetchDeviceAction(z.key);
+            });
+            that.setState({ spin: false });
+          });
+      }
+    });
   }
   componentWillReceiveProps(props) {
     this.getDataVal(props.Data);
@@ -148,7 +148,6 @@ class App extends Component {
     }
   }
   dateChange(date, dateString) {
-    console.log(date1, this.state.currentDevice, this.state.organisation);
     var date1 = new Date(dateString).toDateString("YYYY-MM-DD");
     this.props.fetchData(
       date1,
@@ -181,7 +180,6 @@ class App extends Component {
               good[j] = good[j] + 1;
             }
             if (!userdelight[j]) {
-              userdelight[j] = 0;
               userdelight[j] = 1;
             } else {
               userdelight[j] = userdelight[j] + 1;
@@ -237,7 +235,6 @@ class App extends Component {
               average[j] = average[j] + 1;
             }
             if (!userdelight[j]) {
-              userdelight[j] = 0;
               userdelight[j] = 0.5;
             } else {
               userdelight[j] = userdelight[j] + 0.5;
@@ -260,7 +257,6 @@ class App extends Component {
     var percentgood = Math.round((goodCount / total) * 100) || 0;
     var percentbad = Math.round((badCount / total) * 100) || 0;
     var percentaverage = Math.round((avgCount / total) * 100) || 0;
-    console.log(percentgood, percentaverage, percentbad);
     this.setState({
       timeavg: average,
       timebad: bad,
@@ -279,37 +275,28 @@ class App extends Component {
 
   footFallClick() {
     this.setState({ currentGraph: "foot" });
-    var foot = {
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
-      6: 0,
-      7: 0,
-      8: 0,
-      9: 0,
-      10: 0,
-      11: 0,
-      12: 0,
-      13: 0,
-      14: 0,
-      15: 0,
-      16: 0,
-      17: 0,
-      18: 0,
-      19: 0,
-      20: 0,
-      21: 0,
-      22: 0,
-      23: 0,
-      24: 0
-    };
+    var foot = {};
 
     var footdate = new Date(this.state.date) + "";
+
     var count = 0;
     this.props.Data.forEach(z => {
       if (footdate.slice(0, 15) === z.lastTimestamp.slice(0, 15)) {
+        for (var x = 0; x < 24; x++) {
+          if (z.lastTimestamp.slice(16, 18) === x) {
+            if (!foot[x]) {
+              foot[x] = 1;
+            } else {
+              foot[x] = foot[x] + 1;
+            }
+          } else {
+            if (!foot[x]) {
+              foot[x] = 0;
+            } else {
+              foot[x] = foot[x] + 0;
+            }
+          }
+        }
         foot[Number(z.lastTimestamp.slice(16, 18))] =
           foot[Number(z.lastTimestamp.slice(16, 18))] + 1;
       }
@@ -521,7 +508,14 @@ class App extends Component {
     return (
       <div>
         {this.state.spin ? (
-          <Spin />
+          <Spin
+            style={{
+              display: "flex",
+              alignself: "center",
+              margin: "auto",
+              justifyContent: "center"
+            }}
+          />
         ) : (
           <div style={{ margin: "auto", height: "100vh" }}>
             <div className="header">
@@ -543,7 +537,7 @@ class App extends Component {
                   style={{ width: 200, margin: "auto" }}
                   onChange={this.selectDeviceforReport.bind(this)}
                 >
-                  {this.props.fetch.map(o => (
+                  {this.props.fetchDevice.map(o => (
                     <Option value={o} key={o}>
                       {o}
                     </Option>
@@ -651,7 +645,12 @@ class App extends Component {
                 </div>
                 <hr style={{ width: "100%" }} />
                 <div className="body-graph-main">
-                  <div className="graph">
+                  <div
+                    className="graph"
+                    onClick={() => {
+                      this.setState({ currentGraph: "main" });
+                    }}
+                  >
                     <Bar
                       data={
                         this.state.currentGraph === "main"
@@ -665,6 +664,15 @@ class App extends Component {
                   </div>
                 </div>
               </div>
+              <div />
+            </div>
+            <div className="footer">
+              <Button
+                onClick={this.showModal.bind(this)}
+                style={{ margin: "auto", display: "flex" }}
+              >
+                Report
+              </Button>
             </div>
           </div>
         )}
@@ -674,16 +682,14 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  fetch: state.fetch.data,
+  fetchDevice: state.fetchDevice.data,
   report: state.report.dataReport,
-  Data: state.Data.dataVal,
-  organisationData: state.organisationData.organisationName
+  Data: state.Data.dataVal
 });
 const mapActionsToProps = {
-  fetchDevice: fetchDevice,
+  fetchDeviceAction: fetchDeviceAction,
   getReportData: getReportData,
-  fetchData: fetchData,
-  fetchOrganisationAction: fetchOrganisationAction
+  fetchData: fetchData
 };
 export default connect(
   mapStateToProps,

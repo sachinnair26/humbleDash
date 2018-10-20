@@ -1,7 +1,7 @@
 import { FETCH_DEVICE } from "./actionCreator";
 import { db } from "./config";
 
-export default function fetchDevice(link) {
+export default function fetchDeviceAction(link) {
   const value = [];
   return dispatch => {
     db.ref("new_data")
