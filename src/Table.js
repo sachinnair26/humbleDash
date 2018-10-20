@@ -101,8 +101,16 @@ export default class DeviceTable extends Component {
       });
   }
   onSearch(e) {
-    this.state.data1.filter(el => {
-      el.devicename.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0;
+    var data2 = this.state.data1;
+    this.setState({
+      data1: this.state.data1.filter(function(el) {
+        if (!el.location) {
+        } else {
+          return (
+            el.location.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
+          );
+        }
+      })
     });
   }
   render() {

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Input, Button } from "antd";
+import { Input, Button, Spin } from "antd";
 import { auth } from "./config";
 import { withRouter } from "react-router-dom";
 import "./Login.css";
@@ -15,7 +15,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      spin: false
     };
   }
   onChangeInput = e => {
@@ -27,14 +28,13 @@ class Login extends React.Component {
     auth.signOut();
   }
   onButtonClick = () => {
-    console.log(this.state);
+    this.setState({ spin: true });
     var that = this;
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(function(user) {
         auth.onAuthStateChanged(function(user) {
           if (user !== null) {
-            console.log("sucess");
             that.props.history.push("/dashboard");
           } else {
             console.log("fialed");
@@ -42,6 +42,7 @@ class Login extends React.Component {
         });
       })
       .catch(function(error) {
+        that.setState({ spin: false });
         alert(error.code);
         // Handle Errors here.
         var errorCode = error.code;
@@ -51,26 +52,40 @@ class Login extends React.Component {
   };
   render() {
     return (
-      <div className="login-main">
-        <h1>HumbleInnovations</h1>
-        <div className="logo-login">
-          <img src={q} style={{ width: "100%", height: "100%" }} />
-        </div>
-        <div className="login-second">
-          <Input
-            placeholder="E-mail"
-            name="email"
-            onChange={this.onChangeInput}
-          />
-          <Input
-            placeholder="Password"
-            name="password"
-            onChange={this.onChangeInput}
-          />
-          <Button type="primary" onClick={this.onButtonClick}>
-            Login
-          </Button>
-        </div>
+      <div
+        style={{
+          display: "flex",
+          margin: "auto",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh"
+        }}
+      >
+        {this.state.spin ? (
+          <Spin style={{ alignSelf: "center" }} />
+        ) : (
+          <div className="login-main">
+            <h1>HumbleInnovations</h1>
+            <div className="logo-login">
+              <img src={q} style={{ width: "100%", height: "100%" }} />
+            </div>
+            <div className="login-second">
+              <Input
+                placeholder="E-mail"
+                name="email"
+                onChange={this.onChangeInput}
+              />
+              <Input
+                placeholder="Password"
+                name="password"
+                onChange={this.onChangeInput}
+              />
+              <Button type="primary" onClick={this.onButtonClick}>
+                Login
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

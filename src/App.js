@@ -113,7 +113,6 @@ class App extends Component {
     this.setState({ modalView: true });
   }
   getTableData(deviceName) {
-    console.log(deviceName);
     this.setState({ currentDevice: deviceName, currentGraph: "main" });
     this.props.fetchData(this.state.date, deviceName, this.state.organisation);
   }
@@ -508,14 +507,17 @@ class App extends Component {
     return (
       <div>
         {this.state.spin ? (
-          <Spin
+          <div
             style={{
               display: "flex",
-              alignself: "center",
+              alignItems: "center",
               margin: "auto",
-              justifyContent: "center"
+              justifyContent: "center",
+              height: "100vh"
             }}
-          />
+          >
+            <Spin />
+          </div>
         ) : (
           <div style={{ margin: "auto", height: "100vh" }}>
             <div className="header">
