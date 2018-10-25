@@ -82,12 +82,12 @@ export default class DeviceTable extends Component {
           .child(user.uid)
           .child(organisation)
           .on("value", function(data) {
-            console.log(data.val());
-
-            data1.forEach(l => {
-              if (l.devicename === data.val().devicename) {
-                l["location"] = data.val().location;
-              }
+            data.forEach(l => {
+              data1.forEach(g => {
+                if (l.key === g.devicename) {
+                  g["location"] = l.val().location;
+                }
+              });
             });
 
             that.setState({
@@ -118,7 +118,10 @@ export default class DeviceTable extends Component {
       <div className="table">
         <div>
           <span>
-            <input placeholder="Search " onChange={this.onSearch.bind(this)} />
+            <input
+              placeholder="Search Devices"
+              onChange={this.onSearch.bind(this)}
+            />
           </span>
           <Table
             size="small"

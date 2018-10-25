@@ -74,6 +74,8 @@
 .datepicker {
   margin: auto;
   width: 80%;
+  display: flex;
+  align-items: center;
 }
 
 .head2 {
@@ -157,4 +159,8 @@
   margin: auto;
   background-color: #8cdadd;
   width: 100%;
+}
+.report-select {
+  display: flex;
+  flex-direction: column;
 }

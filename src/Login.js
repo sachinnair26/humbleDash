@@ -65,6 +65,10 @@ class Login extends React.Component {
           <Spin style={{ alignSelf: "center" }} />
         ) : (
           <div className="login-main">
+            <div className="user-initials">
+              <h3>Email:aimskochi@gmail.com</h3>
+              <h3>Password:aimskochi</h3>
+            </div>
             <h1>HumbleInnovations</h1>
             <div className="logo-login">
               <img src={q} style={{ width: "100%", height: "100%" }} />

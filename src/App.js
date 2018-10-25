@@ -1,31 +1,20 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import {
-  Card,
-  Modal,
-  Button,
-  DatePicker,
-  Table,
-  Radio,
-  Select,
-  Progress,
-  Spin
-} from "antd";
+import { Modal, Icon, Button, DatePicker, Select, Spin, Radio } from "antd";
 import { auth, db } from "./config";
 import moment from "moment";
 import { connect } from "react-redux";
 import fetchDeviceAction from "./fetchDeviceAction";
 import fetchData from "./fetchDataAction";
 import { getReportData, getData } from "./fetchReportAction";
-import Chart from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
 import createHistory from "history/createBrowserHistory";
 import DeviceTable from "./Table";
 import b from "./Good.png";
 import a from "./Bad.png";
 import c from "./Avg.png";
-
+const RadioGroup = Radio.Group;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const history = createHistory({ forceRefresh: true });
@@ -38,7 +27,7 @@ class App extends Component {
       uid: "",
       dateList: [],
       UserDelightCount: "",
-      date: new Date().toDateString("YYYY-MM-DD "),
+      date: "",
       deviceForReport: "",
       percentbad: "0",
       percentgood: "0",
@@ -82,7 +71,8 @@ class App extends Component {
       organisation: "",
       goodCount: "",
       badCount: "",
-      averageCount: ""
+      averageCount: "",
+      value: 1
     };
   }
   componentDidMount() {
@@ -100,23 +90,77 @@ class App extends Component {
               that.setState({ organisation: z.key });
               that.props.fetchDeviceAction(z.key);
             });
-            that.setState({ spin: false });
+            that.setState({
+              spin: false,
+              date: moment(new Date(), "YYYY-MM-DD")
+            });
           });
       }
     });
   }
+
   componentWillReceiveProps(props) {
     this.getDataVal(props.Data);
   }
 
-  showModal() {
-    this.setState({ modalView: true });
-  }
   getTableData(deviceName) {
     this.setState({ currentDevice: deviceName, currentGraph: "main" });
-    this.props.fetchData(this.state.date, deviceName, this.state.organisation);
+    var date1 = new Date(this.state.date).toDateString("YYYY-MM-DD");
+    this.props.fetchData(date1, deviceName, this.state.organisation);
   }
-  okModal() {
+  modalVisibility() {
+    this.setState({ modalView: true });
+  }
+  handleCancel = () => {
+    this.setState({ modalView: false });
+  };
+  onChangeRadio = e => {
+    if (e.target.value === 1) {
+      this.selectDateReportWeekly();
+      this.setState({ value: e.target.value });
+    } else if (e.target.value === 2) {
+      this.selectDateReportMonthly();
+      this.setState({ value: e.target.value });
+    } else if (e.target.value === 3) {
+      this.setState({ value: e.target.value });
+    }
+  };
+  selectDateReportRange(date, dateString) {
+    if (moment(dateString[0]) > moment("2018-05-04")) {
+      var dateList = [];
+      var currentDate = moment(dateString[0]);
+      var stopDate = moment(dateString[1]);
+      while (currentDate <= stopDate) {
+        dateList.push(moment(currentDate).format("YYYY-MM-DD"));
+        currentDate = moment(currentDate).add(1, "days");
+      }
+    } else {
+      alert("Please choose a valid date");
+    }
+    this.setState({ dateList });
+  }
+  selectDateReportMonthly() {
+    var dateList = [];
+    var todaysDate = moment(new Date()).subtract(1, "days");
+    var weekpast = moment(todaysDate).subtract(1, "months");
+    while (weekpast <= todaysDate) {
+      dateList.push(moment(weekpast).format("YYYY-MM-DD"));
+      weekpast = moment(weekpast).add(1, "days");
+    }
+    this.setState({ dateList });
+  }
+  selectDateReportWeekly() {
+    var dateList = [];
+    var todaysDate = moment(new Date()).subtract(1, "days");
+    var weekpast = moment(todaysDate).subtract(6, "days");
+    while (weekpast <= todaysDate) {
+      dateList.push(moment(weekpast).format("YYYY-MM-DD"));
+      weekpast = moment(weekpast).add(1, "days");
+    }
+    this.setState({ dateList });
+  }
+
+  onGenerateReport() {
     this.props.getReportData(
       this.state.organisation,
       this.state.dateList,
@@ -125,26 +169,33 @@ class App extends Component {
     setTimeout(() => {
       this.props.history.push("/report");
     }, 1000);
-    this.setState({ modalView: false, dateList: [] });
+    this.setState({ dateList: [] });
   }
   selectDeviceforReport(a) {
     this.setState({ deviceForReport: a });
   }
-  cancelModal() {
-    this.setState({ modalView: false });
+
+  previousDayButton() {
+    var prevDay = moment(this.state.date).subtract(1, "days");
+    this.setState({ date: prevDay });
+    var date1 = new Date(prevDay).toDateString("YYYY-MM-DD");
+    console.log(date1, this.state.deviceName);
+    this.props.fetchData(
+      date1,
+      this.state.currentDevice,
+      this.state.organisation
+    );
   }
-  rangePicker(date, dateString) {
-    if (moment(dateString[0]) > moment("2018-05-04")) {
-      var dateList = [];
-      var currentDate = moment(dateString[0]);
-      var stopDate = moment(dateString[1]);
-      while (currentDate <= stopDate) {
-        this.state.dateList.push(moment(currentDate).format("YYYY-MM-DD"));
-        currentDate = moment(currentDate).add(1, "days");
-      }
-    } else {
-      alert("Please choose a valid date");
-    }
+  nextDayButton() {
+    var nextDay = moment(this.state.date).add(1, "days");
+    this.setState({ date: nextDay });
+    var date1 = new Date(nextDay).toDateString("YYYY-MM-DD");
+    console.log(date1);
+    this.props.fetchData(
+      date1,
+      this.state.currentDevice,
+      this.state.organisation
+    );
   }
   dateChange(date, dateString) {
     var date1 = new Date(dateString).toDateString("YYYY-MM-DD");
@@ -153,7 +204,10 @@ class App extends Component {
       this.state.currentDevice,
       this.state.organisation
     );
-    this.setState({ date: date1, currentGraph: "main" });
+    this.setState({
+      date: moment(dateString, "YYYY-MM-DD"),
+      currentGraph: "main"
+    });
   }
 
   getDataVal(Data) {
@@ -525,27 +579,8 @@ class App extends Component {
                 Toilet Monitoring System
               </h2>
               <Button type="primary" onClick={this.signOut.bind(this)}>
-                LogOut
+                Logout
               </Button>
-
-              <Modal
-                title="Report"
-                visible={this.state.modalView}
-                onOk={this.okModal.bind(this)}
-                onCancel={this.cancelModal.bind(this)}
-              >
-                <RangePicker onChange={this.rangePicker.bind(this)} />
-                <Select
-                  style={{ width: 200, margin: "auto" }}
-                  onChange={this.selectDeviceforReport.bind(this)}
-                >
-                  {this.props.fetchDevice.map(o => (
-                    <Option value={o} key={o}>
-                      {o}
-                    </Option>
-                  ))}
-                </Select>
-              </Modal>
             </div>
             <div className="content">
               <div className="left-content">
@@ -578,12 +613,24 @@ class App extends Component {
 
                 <div className="date-table">
                   <div className="datepicker">
+                    <Icon
+                      style={{ margin: "1px", cursor: "pointer" }}
+                      type="left"
+                      theme="outlined"
+                      onClick={this.previousDayButton.bind(this)}
+                    />
                     <DatePicker
                       size="small"
                       onChange={this.dateChange.bind(this)}
-                      defaultValue={moment(new Date(), "YYYY-MM-DD")}
+                      value={this.state.date}
                       format={"YYYY-MM-DD"}
                       style={{ width: "100%" }}
+                    />
+                    <Icon
+                      style={{ margin: "1px", cursor: "pointer" }}
+                      type="right"
+                      theme="outlined"
+                      onClick={this.nextDayButton.bind(this)}
                     />
                   </div>
                   <DeviceTable
@@ -591,7 +638,45 @@ class App extends Component {
                     organisation={this.state.organisation}
                   />
                 </div>
-                <div />
+                <Modal
+                  title="Basic Modal"
+                  visible={this.state.modalView}
+                  onOk={this.onGenerateReport.bind(this)}
+                  onCancel={this.handleCancel}
+                >
+                  <div className="report-select">
+                    <RadioGroup onChange={this.onChangeRadio}>
+                      <Radio value={1}>By Week</Radio>
+                      <Radio value={2}>By Month</Radio>
+                      <Radio value={3}>Range</Radio>
+                    </RadioGroup>
+                    {this.state.value == 3 ? (
+                      <RangePicker
+                        onChange={this.selectDateReportRange.bind(this)}
+                        style={{ width: 200 }}
+                      />
+                    ) : null}
+
+                    <Select
+                      placeholder="Select Davice"
+                      onChange={this.selectDeviceforReport.bind(this)}
+                      style={{ width: 200 }}
+                    >
+                      {this.props.fetchDevice.map(o => (
+                        <Option value={o} key={o}>
+                          {o}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                </Modal>
+
+                <Button
+                  onClick={this.modalVisibility.bind(this)}
+                  style={{ margin: "auto", display: "flex" }}
+                >
+                  Report
+                </Button>
               </div>
 
               <div className="other-content">
@@ -668,14 +753,7 @@ class App extends Component {
               </div>
               <div />
             </div>
-            <div className="footer">
-              <Button
-                onClick={this.showModal.bind(this)}
-                style={{ margin: "auto", display: "flex" }}
-              >
-                Report
-              </Button>
-            </div>
+            <div className="footer" />
           </div>
         )}
       </div>
