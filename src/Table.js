@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Table, Spin } from "antd";
 import { db, auth } from "./config";
 import "./DeviceTable.css";
-import Login from "./Login";
-export default class DeviceTable extends Component {
+import { connect } from "react-redux";
+import fetchDeviceAction from "./fetchDeviceAction";
+class DeviceTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,71 +36,19 @@ export default class DeviceTable extends Component {
         },
         {
           title: "UserDelight",
-          dataIndex: "userDelight",
-          key: "userDelight",
+          dataIndex: "userdelight",
+          key: "userdelight",
           className: "userdeilght",
+          defaultSortOrder: "descend",
           sorter: (a, b) => a.userDelight - b.userDelight
         }
       ]
     };
   }
-
-  componentDidMount() {
-    var organisation = this.props.organisation;
-    this.setState({ data1: [] });
-    var that = this;
-    var footfall = {};
-    var id = 0;
-    var userDelight = {};
-    db.ref("new_data")
-      .child(organisation)
-      .on("value", function(data) {
-        var data1 = [];
-        data.forEach(a => {
-          id = id + 1;
-          var count = 0;
-          var userdelight = 0;
-          a.forEach(q => {
-            count = count + 1;
-            if (q.val().good === 1) {
-              userdelight = userdelight + 1;
-            } else if (q.val().average === 1) {
-              userdelight = userdelight + 0.5;
-            } else {
-              userdelight = userdelight + 0;
-            }
-          });
-          data1.push({
-            key: id,
-            devicename: a.key,
-            footfall: count,
-            userDelight: userdelight
-          });
-        });
-        var user = auth.currentUser;
-
-        db.ref("deviceDetail")
-          .child(user.uid)
-          .child(organisation)
-          .on("value", function(data) {
-            data.forEach(l => {
-              data1.forEach(g => {
-                if (l.key === g.devicename) {
-                  g["location"] = l.val().location;
-                }
-              });
-            });
-
-            that.setState({
-              data1,
-              spin: false
-            });
-            that.props.getdata(data1[0].devicename);
-          });
-
-        that.setState({ footfall, userDelight });
-      });
+  componentWillReceiveProps(props) {
+    this.setState({ data1: props.fetchDevice, spin: false });
   }
+
   onSearch(e) {
     var data2 = this.state.data1;
     this.setState({
@@ -114,6 +63,8 @@ export default class DeviceTable extends Component {
     });
   }
   render() {
+    console.log(this.state.dataSource);
+
     return (
       <div className="table">
         <div>
@@ -144,3 +95,16 @@ export default class DeviceTable extends Component {
     );
   }
 }
+const mapStateToProps = state => (
+  console.log(state),
+  {
+    fetchDevice: state.fetchDevice.data
+  }
+);
+const mapActionsToProps = {
+  fetchDeviceAction: fetchDeviceAction
+};
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(DeviceTable);

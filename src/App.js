@@ -88,11 +88,12 @@ class App extends Component {
           .on("value", function(data) {
             data.forEach(z => {
               that.setState({ organisation: z.key });
-              that.props.fetchDeviceAction(z.key);
+              var date1 = new Date().toDateString("YYYY-MM-DD");
+              that.props.fetchDeviceAction(date1, z.key);
             });
             that.setState({
-              spin: false,
-              date: moment(new Date(), "YYYY-MM-DD")
+              date: moment(new Date(), "YYYY-MM-DD"),
+              spin: false
             });
           });
       }
@@ -107,6 +108,7 @@ class App extends Component {
     this.setState({ currentDevice: deviceName, currentGraph: "main" });
     var date1 = new Date(this.state.date).toDateString("YYYY-MM-DD");
     this.props.fetchData(date1, deviceName, this.state.organisation);
+    this.props.fetchDeviceAction(date1, this.state.organisation);
   }
   modalVisibility() {
     this.setState({ modalView: true });
@@ -179,23 +181,25 @@ class App extends Component {
     var prevDay = moment(this.state.date).subtract(1, "days");
     this.setState({ date: prevDay });
     var date1 = new Date(prevDay).toDateString("YYYY-MM-DD");
-    console.log(date1, this.state.deviceName);
     this.props.fetchData(
       date1,
       this.state.currentDevice,
       this.state.organisation
     );
+
+    this.props.fetchDeviceAction(date1, this.state.organisation);
   }
   nextDayButton() {
     var nextDay = moment(this.state.date).add(1, "days");
     this.setState({ date: nextDay });
     var date1 = new Date(nextDay).toDateString("YYYY-MM-DD");
-    console.log(date1);
     this.props.fetchData(
       date1,
       this.state.currentDevice,
       this.state.organisation
     );
+
+    this.props.fetchDeviceAction(date1, this.state.organisation);
   }
   dateChange(date, dateString) {
     var date1 = new Date(dateString).toDateString("YYYY-MM-DD");
@@ -204,6 +208,7 @@ class App extends Component {
       this.state.currentDevice,
       this.state.organisation
     );
+    this.props.fetchDeviceAction(date1, this.state.organisation);
     this.setState({
       date: moment(dateString, "YYYY-MM-DD"),
       currentGraph: "main"
@@ -634,6 +639,7 @@ class App extends Component {
                     />
                   </div>
                   <DeviceTable
+                    date={this.state.date}
                     getdata={this.getTableData.bind(this)}
                     organisation={this.state.organisation}
                   />
