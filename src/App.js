@@ -28,6 +28,7 @@ class App extends Component {
       dateList: [],
       UserDelightCount: "",
       date: "",
+      deviceList: [],
       deviceForReport: "",
       percentbad: "0",
       percentgood: "0",
@@ -668,7 +669,7 @@ class App extends Component {
                       onChange={this.selectDeviceforReport.bind(this)}
                       style={{ width: 200 }}
                     >
-                      {this.props.fetchDevice.map(o => (
+                      {this.state.deviceList.map(o => (
                         <Option value={o} key={o}>
                           {o}
                         </Option>

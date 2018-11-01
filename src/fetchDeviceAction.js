@@ -3,11 +3,11 @@ import { db, auth } from "./config";
 
 export default function fetchDeviceAction(date, organisation) {
   return dispatch => {
-    const data1 = [];
     var id = 0;
     db.ref("dailyStats")
       .child(organisation)
       .on("value", function(data) {
+        var data1 = [];
         data.forEach(o => {
           id = id + 1;
           data1.push({
