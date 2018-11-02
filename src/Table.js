@@ -46,11 +46,10 @@ class DeviceTable extends Component {
     };
   }
   componentWillReceiveProps(props) {
-    this.setState({ data1: props.fetchDevice, spin: false });
+    this.setState({ data1: props.fetchDevice });
   }
 
   onSearch(e) {
-    var data2 = this.state.data1;
     this.setState({
       data1: this.state.data1.filter(function(el) {
         if (!el.location) {
@@ -63,8 +62,6 @@ class DeviceTable extends Component {
     });
   }
   render() {
-    console.log(this.state.dataSource);
-
     return (
       <div className="table">
         <div>
@@ -88,7 +85,7 @@ class DeviceTable extends Component {
             }}
             columns={this.state.columns}
             dataSource={this.state.data1}
-            loading={this.state.spin}
+            loading={this.state.loading}
           />
         </div>
       </div>

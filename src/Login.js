@@ -28,6 +28,7 @@ class Login extends React.Component {
     auth.signOut();
   }
   onButtonClick = () => {
+    //Login with email and password (firebase login)
     this.setState({ spin: true });
     var that = this;
     auth
@@ -66,6 +67,8 @@ class Login extends React.Component {
         ) : (
           <div className="login-main">
             <div className="user-initials">
+              {" "}
+              {/*To get Rid of user credentials delete this div*/}
               <h3>Email:aimskochi@gmail.com</h3>
               <h3>Password:aimskochi</h3>
             </div>

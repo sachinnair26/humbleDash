@@ -44,7 +44,6 @@ class Report extends React.Component {
   }
 
   componentWillMount() {
-    var dateTime = {};
     var good = {};
     var bad = {};
     var average = {};

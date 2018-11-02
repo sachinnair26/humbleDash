@@ -24,7 +24,7 @@ class App extends Component {
 
     this.state = {
       spin: true,
-      uid: "",
+
       dateList: [],
       UserDelightCount: "",
       date: "",
@@ -77,21 +77,30 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    var user = "";
+    // first function
+
+    var organisation = "";
     var that = this;
     auth.onAuthStateChanged(function(aut) {
       if (aut == null) {
         history.push("/");
       } else {
-        that.setState({ uid: aut.uid });
         db.ref("deviceDetail")
           .child(aut.uid)
           .on("value", function(data) {
             data.forEach(z => {
+              organisation = z.key;
               that.setState({ organisation: z.key });
               var date1 = new Date().toDateString("YYYY-MM-DD");
-              that.props.fetchDeviceAction(date1, z.key);
+              that.props.fetchDeviceAction(date1, z.key); // fetches data for the table
             });
+            db.ref("new_data")
+              .child(organisation)
+              .on("value", function(device) {
+                device.forEach(p => {
+                  that.state.deviceList.push(p.key);
+                });
+              });
             that.setState({
               date: moment(new Date(), "YYYY-MM-DD"),
               spin: false
@@ -109,7 +118,6 @@ class App extends Component {
     this.setState({ currentDevice: deviceName, currentGraph: "main" });
     var date1 = new Date(this.state.date).toDateString("YYYY-MM-DD");
     this.props.fetchData(date1, deviceName, this.state.organisation);
-    this.props.fetchDeviceAction(date1, this.state.organisation);
   }
   modalVisibility() {
     this.setState({ modalView: true });
@@ -169,9 +177,9 @@ class App extends Component {
       this.state.dateList,
       this.state.deviceForReport
     );
-    setTimeout(() => {
-      this.props.history.push("/report");
-    }, 1000);
+
+    this.props.history.push("/report");
+
     this.setState({ dateList: [] });
   }
   selectDeviceforReport(a) {
