@@ -10,7 +10,6 @@ const initialState = {
 };
 const allEnhancers = compose(
   applyMiddleware(thunk, logger),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 const store = createStore(Reducer, initialState, allEnhancers);
 console.log(store.getState());
