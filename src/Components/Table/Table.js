@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { Table, Spin } from "antd";
-import { db, auth } from "./config";
 import "./DeviceTable.css";
 import { connect } from "react-redux";
-import fetchDeviceAction from "./fetchDeviceAction";
 class DeviceTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       footfall: {},
       userDelight: "",
-      dataSource: [],
-      spin: true,
       currentDevice: "",
       data1: [],
+      spin:true,
+      value:1,
+      search:[],
       columns: [
         {
           title: "Location",
@@ -45,21 +44,38 @@ class DeviceTable extends Component {
       ]
     };
   }
-  componentWillReceiveProps(props) {
-    this.setState({ data1: props.fetchDevice });
+  
+  static getDerivedStateFromProps(props, state){
+    if(props.device !==state.device){
+      return{
+        data1:props.device
+      }
+    }
+  }
+  componentDidUpdate(prevProps,prevState){
+    if(this.props.device !== prevProps.device){
+      this.setState({spin:false})
+    }
+
   }
 
-  onSearch(e) {
-    this.setState({
-      data1: this.state.data1.filter(function(el) {
-        if (!el.location) {
-        } else {
-          return (
-            el.location.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
+  onSearch(e) {                           //this function is used for search
+  if(e.target.value >0 ){
+    this.setState({value:2})
+  }
+ 
+  this.setState({
+    search: this.state.data1.filter(function(el) {
+      if (!el.location) {
+      } else {
+        return (
+          el.location.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1
           );
         }
       })
     });
+   
+    
   }
   render() {
     return (
@@ -71,7 +87,7 @@ class DeviceTable extends Component {
               onChange={this.onSearch.bind(this)}
             />
           </span>
-          <Table
+           <Table
             size="small"
             pagination={{ pageSize: 50 }}
             style={{ overflow: "auto" }}
@@ -79,14 +95,14 @@ class DeviceTable extends Component {
               return {
                 onClick: () => {
                   this.setState({ currentDevice: record.devicename });
-                  this.props.getdata(record.devicename);
+                  this.props.getData(record.devicename);
                 }
               };
             }}
             columns={this.state.columns}
-            dataSource={this.state.data1}
-            loading={this.state.loading}
-          />
+            dataSource={this.state.value === 1 ? this.state.data1 :this.state.search}
+            loading={this.state.spin}
+          /> 
         </div>
       </div>
     );
@@ -95,13 +111,10 @@ class DeviceTable extends Component {
 const mapStateToProps = state => (
   console.log(state),
   {
-    fetchDevice: state.fetchDevice.data
+    device:state.device
   }
 );
-const mapActionsToProps = {
-  fetchDeviceAction: fetchDeviceAction
-};
+
 export default connect(
   mapStateToProps,
-  mapActionsToProps
 )(DeviceTable);

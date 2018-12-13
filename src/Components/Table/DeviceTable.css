@@ -3,6 +3,8 @@
   width: 100%;
   overflow: auto;
   font-size: 14px;
+  background-color: #fff;
+  border-radius: 20px;
 }
 
 .table input {
