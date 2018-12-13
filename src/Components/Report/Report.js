@@ -36,7 +36,11 @@ class Report extends Component {
       
     return (
       <div className="report">
-        {this.state.spin ? <Spin/> : <div>
+
+        {this.state.spin ? <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>
+          <Spin/> 
+          </div>
+          : <div>
          
             <h1>sachin</h1>
             <Tabs type="card">
