@@ -78,7 +78,7 @@ class Login extends Component {
                 name="email"
                 onChange={this.onChangeInput}
               />
-              <Input
+              <Input type="password"
                 placeholder="Password"
                 name="password"
                 onChange={this.onChangeInput}
