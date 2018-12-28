@@ -9,6 +9,7 @@ class Report extends Component {
         this.state={
             report:{},
             spin:true,
+            device:'',
             hours: [ 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4]
         }
     }
@@ -26,7 +27,12 @@ class Report extends Component {
         }
     }
     componentDidUpdate(prevProps,prevState){
-       if(prevProps.report !== this.props.report){
+      if(prevProps.report !== this.props.report){
+        this.props.device.map(device =>{
+            if(this.props.report.device === device.devicename){
+              this.setState({device:device.location})
+            }
+         }) 
          this.setState({spin:false})
        }
        
@@ -42,7 +48,7 @@ class Report extends Component {
           </div>
           : <div>
          
-            <h1>sachin</h1>
+            <h1>{this.state.device}</h1>
             <Tabs type="card">
             <TabPane tab="Good" key="Good">
             <table  className="table1">
@@ -150,6 +156,7 @@ class Report extends Component {
 }
 const mapStateToProps = state =>({
     report:state.report,
-    user:state.user
+    user:state.user,
+    device:state.device
 })
 export default connect(mapStateToProps)(Report);

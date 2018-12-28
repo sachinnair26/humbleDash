@@ -20,11 +20,9 @@ class Login extends Component {
     componentDidMount(){
       var email = localStorage.getItem("email")
       var password = localStorage.getItem("password")
-      console.log(email,password)
-     if(email === null && password ===null){
+     if(email  && password){
        this.onButtonClick();
-     }
-     
+    }    
       
      
     }
@@ -32,12 +30,12 @@ class Login extends Component {
         this.setState({[e.target.name]:e.target.value})
     }
     onButtonClick=()=>{
-        localStorage.setItem("email",this.state.email)
-        localStorage.setItem("password",this.state.password)
         this.setState({spin:true})
         var that = this
         auth.signInWithEmailAndPassword(this.state.email,this.state.password).then(function(user){
             if(user){
+              localStorage.setItem("email",that.state.email)
+              localStorage.setItem("password",that.state.password)
                 that.props.AuthUser() //when user signs in it is directed to /dashboard
                 localStorage.setItem("user",user)
                 that.props.history.push("/dashboard") 

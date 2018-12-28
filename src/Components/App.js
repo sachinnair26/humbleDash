@@ -40,6 +40,7 @@ class App extends Component {
       percentgood: 0,
       percentbad: 0,
       value: 1,
+  backgroundColor:localStorage.getItem("background") ? localStorage.getItem("background") :'#8cdadd',
     };
   }
   componentDidMount() {
@@ -218,10 +219,14 @@ class App extends Component {
     this.setState({ value: 3 });
   }
   onlogoutClick=()=>{
-    localStorage.setItem("email",null)
-    localStorage.setItem("password",null)
+    localStorage.removeItem("email")
+    localStorage.removeItem("password")
     this.props.signOut()
     history.push('/')
+  }
+  onChangeBackground = (e) =>{
+    localStorage.setItem("background",e.target.value)
+    this.setState({backgroundColor:e.target.value})
   }
   render() {
     return (
@@ -230,9 +235,10 @@ class App extends Component {
           <h2 style={{ margin: 'auto', textAlign: 'center' }}>
             Toilet Monitoring System
           </h2>
+          <input type="color" value={this.state.backgroundColor} onChange={this.onChangeBackground}/>
           <Button type="primary" onClick={this.onlogoutClick}>Logout</Button>
         </div>
-        <div className="main">
+        <div className="main" style={{backgroundColor:this.state.backgroundColor}}>
           <div
             className="datepicker-Table"
             onClick={() => {
@@ -265,7 +271,7 @@ class App extends Component {
                 <img src={a} width={40} height={40} />
               </div>
             </div>
-            <div style={{ backgroundColor: '#8cdadd', padding: 2 }}>
+            <div style={{  padding: 2 }}>
               <div className="dateChanger">
                 <Icon
                   style={{ margin: '6px', cursor: 'pointer' }}
@@ -346,7 +352,7 @@ class App extends Component {
               onClick={() => {
                 this.setState({ value: 1 });
               }}
-              style={{ backgroundColor: '#8cdadd',width:'90%',margin:'auto',borderRadius:'20px' }}
+              style={{width:'90%',margin:'auto',borderRadius:'20px' }}
             >
               <Graph value={this.state.value} />
             </div>

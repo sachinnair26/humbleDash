@@ -6,6 +6,7 @@ const Report = {
   average: [],
   bad: [],
   dateList: [],
+  device:"",
 };
 export function getData() {
   return {
@@ -45,6 +46,7 @@ export default function FetchReport(dateList, device, organisation) {//takes 3 i
   }
   return (dispatch) => {
     Report.dateList = dateList;
+    Report.device = device;
     db
       .ref('new_data')
       .child(organisation)      //fetching the data for report
