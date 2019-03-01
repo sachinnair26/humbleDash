@@ -6,19 +6,7 @@ import {
 } from '../../config';
 export default function FetchDataAction(date, currentDevice, organisation) { //it takes 3 variables date,currentdevice,and oraganisation
     
-    var data = {
-        good: [],
-        bad: [],
-        average: [],
-        userdelight: [],
-        foot:[],
-        goodCount: 0,
-        badCount: 0,
-        avgCount: 0,
-        total: 0,
-        UserDelightCount: 0,
-
-    }
+  
     var date1 = date + " 00:00:01 GMT+0530 (IST)"       //add that string to the date to match it from the firebase
     var date2 = date + " 23:59:59 GMT+0530 (IST)"
     return dispatch => {
@@ -29,6 +17,19 @@ export default function FetchDataAction(date, currentDevice, organisation) { //i
             .startAt(date1)
             .endAt(date2)
             .on("value", function (dataVal) {
+                var data = {
+                    good: [],
+                    bad: [],
+                    average: [],
+                    userdelight: [],
+                    foot:[],
+                    goodCount: 0,
+                    badCount: 0,
+                    avgCount: 0,
+                    total: 0,
+                    UserDelightCount: 0,
+            
+                }
                 dataVal.forEach(p => {              //once fetch we first arrange footfall with each element as an hour and count is incremented
                     if(date === p.val().lastTimestamp.slice(0,15)){
                         for(var x=1;x<=24;x++){

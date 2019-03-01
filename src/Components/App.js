@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Modal, Button, DatePicker, Spin, Select, Radio, Icon } from 'antd';
+import { Modal, Button, DatePicker, Spin, Select, Radio, Icon,Alert,message } from 'antd';
 import Graph from './Graph/Graph';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -68,8 +68,11 @@ class App extends Component {
         deviceList: props.device,     //if is used to get props after is is fetched
       };
     }
+    
+   
   }
   componentDidUpdate(prevProps, prevState) {
+
     if (this.props.device !== prevProps.device) {
       if (prevProps.device.length === 0) {  //now when the page loads for the first time previous props are empty so it segnifies the page is loading for the first time
         var date1 = new Date(this.state.date).toDateString('YYYY-MM-DD');   
@@ -135,8 +138,16 @@ class App extends Component {
         percentbad,
         percentgood,
       });
+      
+      if(badCount - prevState.badCount === 1){
+       message.error("You've Got a bad feedback")
+      }
     }
+    
+    
+    
   }
+  
   onRangePicker = (date, dateString) => {     //this takes the final and intal dates for the report
     if (moment(dateString[0]) > moment('2018-05-04')) {
       var dateList = [];                                      //then each and every date is generated from the the start and the end dates
@@ -252,7 +263,7 @@ class App extends Component {
                   width: this.state.percentgood + '%',
                 }}
               >
-                <img src={b} width={40} height={40} />
+                <img src={b} width={40} height={40} className="smiley-pic"/>
               </div>
               <div
                 className="avgSmiley"
@@ -260,7 +271,7 @@ class App extends Component {
                   width: this.state.percentaverage + '%',
                 }}
               >
-                <img src={c} width={40} height={40} />
+                <img src={c} width={40} height={40} className="smiley-pic"/>
               </div>
               <div
                 className="badSmiley"
@@ -268,10 +279,10 @@ class App extends Component {
                   width: this.state.percentbad + '%',
                 }}
               >
-                <img src={a} width={40} height={40} />
+                <img src={a} width={40} height={40} className="smiley-pic"/>
               </div>
             </div>
-            <div style={{  padding: 2 }}>
+            <div style={{  padding: 10 }}>
               <div className="dateChanger">
                 <Icon
                   style={{ margin: '6px', cursor: 'pointer' }}
@@ -352,7 +363,7 @@ class App extends Component {
               onClick={() => {
                 this.setState({ value: 1 });
               }}
-              style={{width:'90%',margin:'auto',borderRadius:'20px' }}
+              className='graph-outside'
             >
               <Graph value={this.state.value} />
             </div>

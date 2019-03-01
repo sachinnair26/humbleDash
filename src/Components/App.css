@@ -1,17 +1,18 @@
 
 .main{
   display: flex;
-  height: 100vh;
   
 }
 .datepicker-Table{
-  width:30%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  padding: 1%;
+  align-self: flex-start
 }
 .header{
   display: flex;
-  
     width: 100%;
     background-color: #e1dfe5;
   
@@ -29,26 +30,33 @@
 .head2 {
   display: flex;
   justify-content: space-around;
-  width: 95%;
-  margin: auto;
+  width: 90%;
   background-color: #fff;
   border-radius: 30px;
   flex-wrap: wrap;
   padding: 1%;
+  margin-top:4%;
 }
 .graphData{
   width:100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-
+  justify-content: center;
+  align-items: center;
+}
+.graph-outside {
+  padding-top: 5%;
+  padding-bottom: 4%;
+  height: 100%;
+  width: 90%;
 }
 .barStyle {
   display: flex;
   flex-direction: row;
-  width: 98%;
+  width: 90%;
   font-size: 9px;
-  margin: auto;
+  padding-top: 5%;
+
 }
 .goodSpan {
   background-color: rgba(10, 167, 69, 0.2);
@@ -88,9 +96,10 @@
 }
 .smileys {
   height: 150px;
-
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
   justify-content: space-around;
 }
 
@@ -99,11 +108,18 @@
   border-radius: 30px;
   transition: width 1s;
 }
+
+.smiley-pic {
+  position: relative;
+  z-index: 3;
+  right: 10px;
+}
 .avgSmiley {
   background-color: #ecf200;
   border-radius: 30px;
   transition: width 1s;
 }
+
 .badSmiley {
   background-color: #fe001e;
   border-radius: 30px;

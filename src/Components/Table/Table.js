@@ -89,7 +89,7 @@ class DeviceTable extends Component {
           </span>
            <Table
             size="small"
-            pagination={{ pageSize: 50 }}
+            pagination={{ pageSize: 10 }}
             style={{ overflow: "auto" }}
             onRow={record => {
               return {
