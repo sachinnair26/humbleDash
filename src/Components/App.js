@@ -40,6 +40,7 @@ class App extends Component {
       percentgood: 0,
       percentbad: 0,
       value: 1,
+      currentdevicelocation:'',
   backgroundColor:localStorage.getItem("background") ? localStorage.getItem("background") :'#8cdadd',
     };
   }
@@ -57,8 +58,8 @@ class App extends Component {
       this.props.user.uid
     );
   };
-  getTableData = (a) => {             //so whenever we click on any elemnt on the table it is sent to the parent component and current device is set to that device
-    this.setState({ currentDevice: a });
+  getTableData = (a,b) => {             //so whenever we click on any elemnt on the table it is sent to the parent component and current device is set to that device
+    this.setState({ currentDevice: a,currentdevicelocation:b });
     var date1 = new Date(this.state.date).toDateString('YYYY-MM-DD');
     this.props.FetchDataAction(date1, a, this.state.organisation); //data is fetched then
   };
@@ -85,6 +86,7 @@ class App extends Component {
         this.setState({
           spin: false,
           currentDevice: this.props.device[0].devicename,
+          currentdevicelocation:this.props.device[0].location
         });
       } else { //now if previous props are not empty it is not loading for the fist time so we can put current device as one that is clicked by the user
         var date1 = new Date(this.state.date).toDateString('YYYY-MM-DD');
@@ -314,8 +316,8 @@ class App extends Component {
           <div className="graphData">
             <div className="head2">
               <div className="content1 ">
-                <h5>Device Name:</h5>
-                <h4>{this.state.currentDevice}</h4>
+                <h5>Device Location:</h5>
+                <h4>{this.state.currentdevicelocation}</h4>
               </div>
 
               <div

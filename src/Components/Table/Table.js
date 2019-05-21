@@ -94,8 +94,8 @@ class DeviceTable extends Component {
             onRow={record => {
               return {
                 onClick: () => {
-                  this.setState({ currentDevice: record.devicename });
-                  this.props.getData(record.devicename);
+                  this.setState({ currentDevice: record.devicename});
+                  this.props.getData(record.devicename,record.location);
                 }
               };
             }}
