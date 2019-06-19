@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
-import {Spin,Tabs} from 'antd';
+import {Spin,Tabs, Input,Slider} from 'antd';
 import './Report.css';
 const TabPane = Tabs.TabPane;
 class Report extends Component {
@@ -10,7 +10,12 @@ class Report extends Component {
             report:{},
             spin:true,
             device:'',
-            hours: [ 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4]
+            hours: [ 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,1,2,3,4],
+            thresholdGood:5,
+            thresholdBadHigh:5,
+            thresholdBadSecondHigh:3,
+            thresholdAvgHigh:7,
+            thresholdAvgSecondHigh:4,
         }
     }
    componentDidMount(){
@@ -39,18 +44,31 @@ class Report extends Component {
       
     }
     render() {
-      
+     
     return (
       <div className="report">
-
+       
         {this.state.spin ? <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>
           <Spin/> 
           </div>
           : <div>
          
             <h1>{this.state.device}</h1>
+            
             <Tabs type="card">
             <TabPane tab="Good" key="Good">
+            <div style={{width:'10%'}}>
+          Threshold Value
+          <Slider value={this.state.thresholdGood} onChange={(a)=>{this.setState({thresholdGood:a})}}  min={1}  max={10}  marks={{
+       
+       10: {
+         style: {
+           color: 'green',
+         },
+         label: <strong>Green</strong>,
+       },
+     }}/>
+        </div>
             <table  className="table1">
                 <tbody>
                     <tr>
@@ -65,7 +83,7 @@ class Report extends Component {
                     <tr>
                         <td>{c}</td>
                             {this.state.hours.map(d=>(
-                                this.state.report.good[c.toString()][d.toString()] >= 5 ? (
+                                this.state.report.good[c.toString()][d.toString()] >= this.state.thresholdGood ? (
                                     <td style={{ backgroundColor: "green" }}>
                                       {this.state.report.good[c.toString()][d.toString()]}    
                                     </td>
@@ -79,6 +97,28 @@ class Report extends Component {
             </table>
             </TabPane>
             <TabPane tab="Bad" key="Bad">
+            <div style={{width:'10%'}}>
+          Threshold Value
+          <Slider value={this.state.thresholdBadHigh} onChange={(a)=>{this.setState({thresholdBadHigh:a})}}  min={1}  max={10} marks={{
+       
+       10: {
+         style: {
+           color: 'red',
+         },
+         label: <strong>Red</strong>,
+       },
+     }}/>
+          <Slider value={this.state.thresholdBadSecondHigh} onChange={(a)=>{this.setState({thresholdBadSecondHigh:a})}}  min={1}  max={10} marks={{
+       
+       10: {
+         style: {
+           color: 'yellow',
+         },
+         label: <strong>Yellow</strong>,
+       },
+     }}/>
+
+        </div>
             <table className="table1">
               <tbody>
                 <tr>
@@ -94,11 +134,11 @@ class Report extends Component {
                     <td>{c}</td>
                     {this.state.hours.map(
                       d =>
-                        this.state.report.bad[c.toString()][d.toString()] >= 5 ? (
+                        this.state.report.bad[c.toString()][d.toString()] >= this.state.thresholdBadHigh ? (
                           <td style={{ backgroundColor: "red" }}>
                             {this.state.report.bad[c.toString()][d.toString()]}
                           </td>
-                        ) : this.state.report.bad[c.toString()][d.toString()] >= 3 ? (
+                        ) : this.state.report.bad[c.toString()][d.toString()] >= this.state.thresholdBadSecondHigh ? (
                           <td style={{ backgroundColor: "yellow" }}>
                             {this.state.report.bad[c.toString()][d.toString()]}
                           </td>
@@ -112,6 +152,28 @@ class Report extends Component {
             </table>            
             </TabPane>
             <TabPane tab="Average" key="Average">
+            <div style={{width:'10%'}}>
+          Threshold Value
+          <Slider value={this.state.thresholdAvgHigh} onChange={(a)=>{this.setState({thresholdAvgHigh:a})}}  min={1}  max={10} marks={{
+       
+       10: {
+         style: {
+           color: 'red',
+         },
+         label: <strong>Red</strong>,
+       },
+     }}/>
+          <Slider value={this.state.thresholdAvgSecondHigh} onChange={(a)=>{this.setState({thresholdAvgSecondHigh:a})}}  min={1}  max={10} marks={{
+       
+       10: {
+         style: {
+           color: 'yellow',
+         },
+         label: <strong>Yellow</strong>,
+       },
+     }}/>
+
+        </div>
             <table className="table1">
               <tbody>
                 <tr>
@@ -127,12 +189,12 @@ class Report extends Component {
 
                     {this.state.hours.map(
                       d =>
-                        this.state.report.average[c.toString()][d.toString()] >= 7 ? (
+                        this.state.report.average[c.toString()][d.toString()] >= this.state.thresholdAvgHigh ? (
                           <td style={{ backgroundColor: "red" }}>
                             {this.state.report.average[c.toString()][d.toString()]}
                           </td>
                         ) : this.state.report.average[c.toString()][d.toString()] >=
-                        4 ? (
+                        this.state.thresholdAvgSecondHigh ? (
                           <td style={{ backgroundColor: "yellow" }}>
                             {this.state.report.average[c.toString()][d.toString()]}
                           </td>

@@ -34,7 +34,7 @@ class DeviceTable extends Component {
           sorter: (a, b) => a.footfall - b.footfall
         },
         {
-          title: "UserDelight",
+          title: "Mean",
           dataIndex: "userdelight",
           key: "userdelight",
           className: "userdeilght",
