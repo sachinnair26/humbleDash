@@ -48,16 +48,18 @@ class DeviceTable extends Component {
   static getDerivedStateFromProps(props, state){
     if(props.device !==state.device){
       return{
-        data1:props.device
+        data1:props.device,spin:false
       }
     }
   }
-  componentDidUpdate(prevProps,prevState){
-    if(this.props.device !== prevProps.device){
-      this.setState({spin:false})
-    }
+  // componentDidUpdate(prevProps,prevState){
+  //   console.log(this.props.device,prevProps.device);
+    
+  //   if(this.props.device !== prevProps.device){
+  //     this.setState({spin:false})
+  //   }
 
-  }
+  // }
 
   onSearch(e) {                           //this function is used for search
   if(e.target.value.length >0 ){
@@ -96,6 +98,7 @@ class DeviceTable extends Component {
                 onClick: () => {
                   this.setState({ currentDevice: record.devicename});
                   this.props.getData(record.devicename,record.location);
+                  this.props.onClickToShowDrawer();
                 }
               };
             }}
