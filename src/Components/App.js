@@ -41,6 +41,7 @@ class App extends Component {
       percentbad: 0,
       value: 1,
       currentdevicelocation:'',
+      dateList:[],
   backgroundColor:localStorage.getItem("background") ? localStorage.getItem("background") :'#8cdadd',
     };
   }
@@ -216,14 +217,23 @@ class App extends Component {
     this.setState({ dateList });
   }
 
-  onOkForReport = () => {   //on pressing this it initiates fetching o report
-    this.props.FetchReport(
-      this.state.dateList,
-      this.state.deviceForReport,
-      this.state.organisation
-    );
-    this.setState({ modal: false });
-    this.props.history.push('/report');
+  onOkForReport = () => { 
+      
+      //on pressing this it initiates fetching o report
+      if(this.state.deviceForReport === '' || this.state.dateList === []){
+        console.log("i reach here");
+        
+         message.error("Enter the credentials")
+       
+        }else{
+          this.props.FetchReport(
+            this.state.dateList,
+            this.state.deviceForReport,
+            this.state.organisation
+            );
+            this.setState({ modal: false });
+            this.props.history.push('/report');
+        }
   };
   UserDelightClick() {    //when tis is clicked it is passed onto the graph component and graph is chenged
     this.setState({ value: 2 });
@@ -262,26 +272,38 @@ class App extends Component {
               <div
                 className="goodSmiley"
                 style={{
-                  width: this.state.percentgood + '%',
+                  width: '25%',
+                  fontSize:'18px',
+                  color:'#fff',
+                  fontWeight:'bold'
                 }}
               >
                 <img src={b} width={40} height={40} className="smiley-pic"/>
+                {this.state.goodCount}
               </div>
               <div
                 className="avgSmiley"
                 style={{
-                  width: this.state.percentaverage + '%',
+                  width: '25%',
+                  fontSize:'18px',
+                  color:'#fff',
+                  fontWeight:'bold'
                 }}
               >
                 <img src={c} width={40} height={40} className="smiley-pic"/>
+                {this.state.averageCount}
               </div>
               <div
                 className="badSmiley"
                 style={{
-                  width: this.state.percentbad + '%',
+                  width:'25%',
+                  fontSize:'18px',
+                  color:'#fff',
+                  fontWeight:'bold'
                 }}
               >
                 <img src={a} width={40} height={40} className="smiley-pic"/>
+                {this.state.badCount}
               </div>
             </div>
             <div style={{  padding: 10 }}>

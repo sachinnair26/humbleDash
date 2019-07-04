@@ -39,7 +39,7 @@ class DeviceTable extends Component {
           key: "userdelight",
           className: "userdeilght",
           defaultSortOrder: "descend",
-          sorter: (a, b) => a.userDelight - b.userDelight
+          sorter: (a, b) => a.userdelight - b.userdelight
         }
       ]
     };
@@ -60,10 +60,10 @@ class DeviceTable extends Component {
   }
 
   onSearch(e) {                           //this function is used for search
-  if(e.target.value >0 ){
+  if(e.target.value.length >0 ){
     this.setState({value:2})
   }
- 
+  
   this.setState({
     search: this.state.data1.filter(function(el) {
       if (!el.location) {
