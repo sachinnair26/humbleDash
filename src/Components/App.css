@@ -1,6 +1,7 @@
 
 .main{
   display: flex;
+  flex-direction: column;
 }
 .datepicker-Table{
   display: flex;
@@ -16,10 +17,7 @@
     background-color: #e1dfe5;
   
 }
-.dateChanger{
-  display: flex;
 
-}
 .content1 {
   background-color: #fff;
   padding: 1%;

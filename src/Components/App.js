@@ -278,9 +278,10 @@ class App extends Component {
       <div className='App'>
       
         <Drawer
+          closable={true}
           title='Deivce Table'
           placement='right'
-          width={420}
+          width={window.innerWidth <=600 ? window.innerWidth-90:420}
           closable={false}
           onClose={this.onClickToShowDrawer}
           visible={this.state.showDrawer}
@@ -375,6 +376,7 @@ class App extends Component {
                 averageCount={this.state.averageCount}
                 showReportModal={this.showReportModal}
                 onClickToShowDrawer={this.onClickToShowDrawer}
+                currentDevice={this.state.currentDevice}
               />
             </div>
           </div>

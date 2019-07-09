@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import { Bar } from 'react-chartjs-2'
-import { Spin, Icon, DatePicker, Dropdown, Menu, Select,Button,Tooltip } from 'antd'
+import {
+  Spin,
+  Icon,
+  DatePicker,
+  Dropdown,
+  Menu,
+  Select,
+  Button,
+  Tooltip
+} from 'antd'
 import { connect } from 'react-redux'
 import './Graph.css'
 import b from '../Good.png'
@@ -131,17 +140,15 @@ class Graph extends Component {
         }
       ]
     }
+    console.log(window);
     
     return (
       <div className='graph'>
         {this.state.visible ? (
           <Spin />
         ) : (
-          <div
-            className='inside-conditional-container'
-          >
-           <div className='date-picker-selector'>
-
+          <div className='inside-conditional-container'>
+            <div className='date-picker-selector'>
               <div className='dateChanger'>
                 <Icon
                   style={{ margin: '6px', cursor: 'pointer' }}
@@ -159,33 +166,33 @@ class Graph extends Component {
                   theme='outlined'
                   onClick={this.props.nextDayButton}
                 />
-               
-            </div>
-            <Tooltip placement="top" title={(<span>Generate Report</span>)}>
-            <Button
-              onClick={this.props.showReportModal}
-            >
-              <Icon type="table" />
-            </Button>
-      </Tooltip>
-          <div style={{width:'25%'}}>
-            <Select
-                  onChange={(a,b)=>{this.props.getTableData(b.props.value,b.props.children)}}
+              </div>
+              <Tooltip placement='top' title={<span>Generate Report</span>}>
+                <Button onClick={this.props.showReportModal}>
+                  <Icon type='table' />
+                </Button>
+              </Tooltip>
+              <div className='device-selector-div'>
+                <Select
+                  onChange={(a, b) => {
+                    this.props.getTableData(b.props.value, b.props.children)
+                  }}
                   defaultActiveFirstOption
-                  style={{ width: '80%',marginRight:'4px' }}
+                  style={{ width: '80%', marginRight: '4px' }}
                   defaultValue={this.props.device[0].devicename}
+                  value={this.props.currentDevice}
                 >
                   {this.props.device.map(pp => (
                     <Option value={pp.devicename}>{pp.location}</Option>
                   ))}
                 </Select>
-            <Tooltip placement="top" title={(<span>Device Table</span>)}>
-                <Button onClick={this.props.onClickToShowDrawer}>
-                <Icon type="align-center"  />
-                </Button>
-            </Tooltip>
-          </div>
-           </div>
+                <Tooltip placement='top' title={<span>Device Table</span>}>
+                  <Button onClick={this.props.onClickToShowDrawer}>
+                    <Icon type='align-center' />
+                  </Button>
+                </Tooltip>
+              </div>
+            </div>
             <Bar
               data={
                 this.props.value === 1
@@ -194,34 +201,29 @@ class Graph extends Component {
                     ? userdelight
                     : datafoot
               }
-              options={{ maintainAspectRatio: true, responsive: true }}
+              options={{ maintainAspectRatio: window.innerWidth  <= 600 ? false : true, responsive: true }}
             />
 
-            <div className="smileys">
-              <div
-                className="goodSmiley"
-               
-              >
-                <img src={b} width={40} height={40} className="smiley-pic"/>
-                <span className='text-span' style={{textAlign:'center'}}>{this.props.goodCount}</span>
+            <div className='smileys'>
+              <div className='goodSmiley'>
+                <img src={b} width={40} height={40} className='smiley-pic' />
+                <span className='text-span' style={{ textAlign: 'center' }}>
+                  {this.props.goodCount}
+                </span>
               </div>
-              <div
-                className="avgSmiley"
-                
-              >
-                <img src={c} width={40} height={40} className="smiley-pic"/>
-                <span className='text-span' style={{textAlign:'center'}}>{this.props.averageCount}</span>
+              <div className='avgSmiley'>
+                <img src={c} width={40} height={40} className='smiley-pic' />
+                <span className='text-span' style={{ textAlign: 'center' }}>
+                  {this.props.averageCount}
+                </span>
               </div>
-              <div
-                className="badSmiley"
-                
-              >
-                <img src={a} width={40} height={40} className="smiley-pic"/>
-                <span className='text-span' style={{textAlign:'center'}}>{this.props.badCount}</span>
+              <div className='badSmiley'>
+                <img src={a} width={40} height={40} className='smiley-pic' />
+                <span className='text-span' style={{ textAlign: 'center' }}>
+                  {this.props.badCount}
+                </span>
               </div>
             </div>
-            
-
           </div>
         )}
       </div>

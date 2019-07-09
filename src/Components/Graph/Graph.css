@@ -4,6 +4,7 @@
     display: flex;
     align-items: center ;
     height: 100%;
+    width: 100%;
     min-height: 70vh;
     justify-content: center;
     padding: 10px;
@@ -17,6 +18,10 @@
     display: flex;
     justify-content: space-between;
     
+}
+.dateChanger{
+  display: flex;
+
 }
 .smileys {
     width: 100%;
@@ -60,4 +65,69 @@
     color: #fff;
     font-weight: bold;
   }
+  .device-selector-div{
+    width:25%;
+  }
+@media only screen and (max-width: 600px) {
+  .smiley-pic {
+    width:80%;
+    height: 50%;
+    position: relative;
+    z-index: 3;
+    left: 3px;
+  }
+  .goodSmiley {
+    background-color: #00b55c;
+    border-radius: 30px;
+    transition: width 1s;
+    width: 10%;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+  flex-direction: column;
+
+}
+.avgSmiley {
+  background-color: #ecf200;
+  border-radius: 30px;
+  transition: width 1s;
+  width: 10%;
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.badSmiley {
+  background-color: #fe001e;
+  border-radius: 30px;
+  transition: width 1s;
+  width: 10%;
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.inside-conditional-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.date-picker-selector{
+  width:100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.device-selector-div {
+  width:80%;
+}
+
+}
   
