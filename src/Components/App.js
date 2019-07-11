@@ -298,9 +298,6 @@ class App extends Component {
           <h2 style={{ margin: 'auto', textAlign: 'center' }}>
             Toilet Monitoring System
           </h2>
-          
-         
-         
           <Dropdown overlay={(<Menu><Menu.Item onClick={this.onlogoutClick}>Logout</Menu.Item></Menu>)}>
           <Icon type="user" style={{fontSize:'20px',lineHeight:2,marginRight:'5px',cursor:'pointer'}} />
           </Dropdown>
