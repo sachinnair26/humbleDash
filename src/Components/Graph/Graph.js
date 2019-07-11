@@ -194,6 +194,7 @@ class Graph extends Component {
               </div>
             </div>
             <Bar
+              height={window.innerHeight-100}
               data={
                 this.props.value === 1
                   ? datagraph // for 1 good bad avereage graph is taken
@@ -201,7 +202,7 @@ class Graph extends Component {
                     ? userdelight
                     : datafoot
               }
-              options={{ maintainAspectRatio: window.innerWidth  <= 600 ? false : true, responsive: true }}
+              options={{ maintainAspectRatio: window.innerWidth  <= 600 ? false : false, responsive: true }}
             />
 
             <div className='smileys'>
