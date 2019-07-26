@@ -273,6 +273,9 @@ class App extends Component {
   showReportModal = () =>{
     this.setState({modal:true})
   }
+  onCancelForModal = () =>{
+    this.setState({modal:false})
+  }
   render () {
     return (
       <div className='App'>
@@ -382,6 +385,7 @@ class App extends Component {
           title='Basic Modal'
           visible={this.state.modal}
           onOk={this.onOkForReport}
+          onCancel={this.onCancelForModal}
         >
           <div className='report-select'>
             <RadioGroup onChange={this.onChangeRadio}>

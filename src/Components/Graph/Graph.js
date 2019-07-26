@@ -75,7 +75,6 @@ class Graph extends Component {
   }
 
   render () {
-    console.log(this.props.device)
 
     var datafoot = {
       labels: this.state.labels,
@@ -140,7 +139,6 @@ class Graph extends Component {
         }
       ]
     }
-    console.log(window);
     
     return (
       <div className='graph'>
