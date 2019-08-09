@@ -141,7 +141,20 @@ componentDidUpdate(prevProps,prevState){
           datagraph //for 1 good bad avereage graph is taken 
            : this.props.value === 2 ? // for 2 userdelight and for 3 footfall is taken
            userdelight:datafoot
-            }  options={{ maintainAspectRatio: false, responsive: true }} />
+            }  options={{ maintainAspectRatio: false, responsive: true,scales: {
+         yAxes: [{
+             ticks: {
+                 beginAtZero: true,
+                 userCallback: function(label, index, labels) {
+                     // when the floored value is the same as the value we have a whole number
+                     if (Math.floor(label) === label) {
+                         return label;
+                     }
+
+                 },
+             }
+         }],
+     } }} />
         }
       </div>
     )

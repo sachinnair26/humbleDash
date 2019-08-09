@@ -12,11 +12,10 @@ export default function FetchDeviceAction(date, organisation,uid) { //takes 3 va
             id = id + 1;
             deviceData.push({
               id: id,
-              devicename: o.key
+              devicename: o.key,
             });
           });
           deviceData.forEach(u => {     //now from the array of devices we take each device and compare
-                                         //it with this node of firebase and download daily stat like footfall and userdelight 
             db.ref("dailyStats")
               .child(organisation)
               .child(u.devicename)
@@ -44,6 +43,8 @@ export default function FetchDeviceAction(date, organisation,uid) { //takes 3 va
                   }
                 });
               });
+              console.log(deviceData);
+              
               dispatch({
                 type: FETCH_DEVICE,
                  deviceData

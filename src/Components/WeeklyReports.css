@@ -1,0 +1,11 @@
+.table2{
+    width:50%;
+    font:10px;
+  }
+  .table2 td {
+      font-size: 10px;
+        padding:5px;
+  }
+.table2 th {
+    border: 1px solid black;
+}

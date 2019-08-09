@@ -14,7 +14,7 @@ export function getData() {
     Report,
   };
 }
-export default function FetchReport(dateList, device, organisation) {//takes 3 inputs list of dates,devices ,organisation
+export function FetchReport(dateList, device, organisation) {//takes 3 inputs list of dates,devices ,organisation
   console.log(dateList, device, organisation);
   for(var i = 0 ;i<dateList.length;i++){
     var date1 = new Date(dateList[i])+''  //change the date format 2018-12-02 to Sun Dec 02 2018
@@ -89,4 +89,16 @@ export default function FetchReport(dateList, device, organisation) {//takes 3 i
         dispatch(getData());
       });
   };
+}
+export function ResetReport(){
+    return {
+      type: REPORT_DATA,
+      Report : {
+        good: [],
+        average: [],
+        bad: [],
+        dateList: [],
+        device:"",
+      }
+    }
 }

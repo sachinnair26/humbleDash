@@ -2,13 +2,15 @@
 .main{
   display: flex;
 }
+.App{
+  background-color: #00b55c;
+}
 .datepicker-Table{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items:center;
-  padding: 1%;
-  align-self: flex-start
+  width:40%;
 }
 .header{
   display: flex;
@@ -18,7 +20,8 @@
 }
 .dateChanger{
   display: flex;
-
+  justify-content: center;
+  align-items: center;
 }
 .content1 {
   background-color: #fff;
@@ -29,12 +32,12 @@
 .head2 {
   display: flex;
   justify-content: space-around;
-  width: 90%;
+  width: 98%;
   background-color: #fff;
   border-radius: 30px;
   flex-wrap: wrap;
   padding: 1%;
-  margin-top:4%;
+  margin-top:2%;
 }
 .graphData{
   width:100%;
@@ -44,17 +47,17 @@
   align-items: center;
 }
 .graph-outside {
-  padding-top: 5%;
-  padding-bottom: 4%;
+  padding-top: 1%;
+  padding-bottom: 0.9%;
   height: 100%;
-  width: 90%;
+  width: 98%;
 }
 .barStyle {
   display: flex;
   flex-direction: row;
-  width: 90%;
+  width: 98%;
   font-size: 9px;
-  padding-top: 5%;
+  padding-top: 1%;
 
 }
 .goodSpan {
@@ -64,6 +67,7 @@
   border-color: rgba(10, 167, 69, 1);
   border-width: 1;
   width: 33%;
+  padding:5px;
 }
 .goodSpan:hover {
   background-color: rgba(10, 167, 69, 0.4);
@@ -75,12 +79,14 @@
   border-color: rgba(255, 193, 7, 1);
   border-width: 1;
   width: 33%;
+  padding:5px;
 }
 .avgSpan:hover {
   background-color: rgba(255, 193, 7, 0.4);
   border-color: rgba(255, 193, 7, 1);
 }
 .badSpan {
+  padding:5px;
   width: 33%;
   background-color: rgba(205, 92, 92, 0.2);
   border: 2px solid;
@@ -123,4 +129,10 @@
   background-color: #fe001e;
   border-radius: 30px;
   transition: width 1s;
+}
+.red-button-for-report {
+  background-color: #fe001e;
+  padding: 50px;
+  border-radius: 20px;
+  color:#fff;
 }

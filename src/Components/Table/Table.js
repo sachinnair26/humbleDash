@@ -16,18 +16,19 @@ class DeviceTable extends Component {
       columns: [
         {
           title: "Location",
-          dataIndex: "location",
           key: "location",
-          className: "userdeilght"
+          className: "userdeilght",
+          render:(record)=>{return <div onClick={()=>{this.selectFunction(record)}} style={{cursor:'pointer'}}>{record.location}</div>
+          }
         },
         {
           title: "DeviceName",
           dataIndex: "devicename",
           key: "devicename",
-          className: "deviceName"
+          className: "deviceName",
         },
         {
-          title: "FootFall",
+          title: "Total",
           dataIndex: "footfall",
           key: "footfall",
           className: "footfall",
@@ -40,6 +41,11 @@ class DeviceTable extends Component {
           className: "userdeilght",
           defaultSortOrder: "descend",
           sorter: (a, b) => a.userdelight - b.userdelight
+        },{
+          title: "7 Days",
+          dataIndex:"",
+          key: "x",
+          render:(record)=>{return <div onClick={()=>{props.onClickSingleColumnOnTable(record)}} style={{cursor:'pointer'}}>Click</div>}
         }
       ]
     };
@@ -63,7 +69,7 @@ class DeviceTable extends Component {
   if(e.target.value.length >0 ){
     this.setState({value:2})
   }
-  
+ 
   this.setState({
     search: this.state.data1.filter(function(el) {
       if (!el.location) {
@@ -76,6 +82,12 @@ class DeviceTable extends Component {
     });
    
     
+  }
+  selectFunction = (record) =>{
+    console.log("saasaassawwwwww22222222222",record);
+    
+    this.setState({ currentDevice: record.devicename});
+    this.props.getData(record.devicename,record.location)
   }
   render() {
     return (
@@ -91,14 +103,6 @@ class DeviceTable extends Component {
             size="small"
             pagination={{ pageSize: 10 }}
             style={{ overflow: "auto" }}
-            onRow={record => {
-              return {
-                onClick: () => {
-                  this.setState({ currentDevice: record.devicename});
-                  this.props.getData(record.devicename,record.location);
-                }
-              };
-            }}
             columns={this.state.columns}
             dataSource={this.state.value === 1 ? this.state.data1 :this.state.search}
             loading={this.state.spin}

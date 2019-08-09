@@ -4,9 +4,9 @@
   font-size: 14px;
   background-color: #fff;
   border-radius: 20px;
-  overflow: hidden;
-  padding: 1%;
+  padding-top: 1%;
   min-height: 60vh;
+
 }
 
 .table input {
@@ -33,7 +33,4 @@
 .deviceName tr td {
   padding: 0px;
 }
-.ant-table-column-sorter {
-  width: 10px;
-  height: 10px;
-}
+

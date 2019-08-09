@@ -1,4 +1,4 @@
-import {FETCH_DATA,FETCH_DEVICE,REPORT_DATA,AUTH_USER} from '../ActionCreators/ActionCreators';
+import {FETCH_DATA,FETCH_DEVICE,REPORT_DATA,AUTH_USER,RESET_REPORT} from '../ActionCreators/ActionCreators';
 
 const initialState = {
     
@@ -26,6 +26,11 @@ switch (action.type) {
   return{
     ...state,
     user:action.user
+  }
+  case RESET_REPORT:
+  return{
+    ...state,
+    report:action.Report
   }
   default:
   return state;
