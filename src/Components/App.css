@@ -1,9 +1,11 @@
 
 .main{
   display: flex;
+  height: 98vh;
 }
 .App{
   background-color: #00b55c;
+  min-height: 100vh;
 }
 .datepicker-Table{
   display: flex;
@@ -61,41 +63,56 @@
 
 }
 .goodSpan {
-  background-color: rgba(10, 167, 69, 0.2);
+  background-color: rgba(10, 167, 69, 0.6);
   border: 2px solid;
   border-radius: 5px 0px 0px 5px;
   border-color: rgba(10, 167, 69, 1);
   border-width: 1;
   width: 33%;
+  font-size: 15px;
+    font-weight: 900;
   padding:5px;
+  text-align: center;
+
 }
 .goodSpan:hover {
+  cursor: pointer;
   background-color: rgba(10, 167, 69, 0.4);
   border-color: rgba(10, 167, 69, 1);
 }
 .avgSpan {
-  background-color: rgba(255, 193, 7, 0.2);
+  background-color: rgba(255, 193, 7, 0.6);
   border: 2px solid;
   border-color: rgba(255, 193, 7, 1);
   border-width: 1;
   width: 33%;
   padding:5px;
+  font-size: 15px;
+    font-weight: 900;
+    text-align: center;
+
 }
 .avgSpan:hover {
+  cursor: pointer;
+  
   background-color: rgba(255, 193, 7, 0.4);
   border-color: rgba(255, 193, 7, 1);
 }
 .badSpan {
   padding:5px;
   width: 33%;
-  background-color: rgba(205, 92, 92, 0.2);
+  background-color: rgba(205, 92, 92, 0.6);
   border: 2px solid;
   border-radius: 0px 5px 5px 0px;
 
   border-color: rgba(205, 92, 92, 0.2);
   border-width: 1;
+  font-size: 15px;
+    font-weight: 900;
+    text-align: center;
 }
 .badSpan:hover {
+  cursor: pointer;
   background-color: rgba(255, 99, 132, 0.4);
   border-color: rgba(255, 99, 132, 1);
 }
@@ -132,7 +149,7 @@
 }
 .red-button-for-report {
   background-color: #fe001e;
-  padding: 50px;
+  padding: 30px;
   border-radius: 20px;
   color:#fff;
 }

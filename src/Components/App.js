@@ -54,9 +54,7 @@ class App extends Component {
       currentdevicelocation: '',
       dateList: [],
       modalforreport:false,
-      backgroundColor: localStorage.getItem('background')
-        ? localStorage.getItem('background')
-        : '#8cdadd'
+      backgroundColor : '#8cdadd'
     }
   }
   componentDidMount () {
@@ -264,10 +262,10 @@ class App extends Component {
     this.props.signOut()
     history.push('/')
   }
-  onChangeBackground = e => {
-    localStorage.setItem('background', e.target.value)
-    this.setState({ backgroundColor: e.target.value })
-  }
+  // onChangeBackground = e => {
+  //   localStorage.setItem('background', e.target.value)
+  //   this.setState({ backgroundColor: e.target.value })
+  // }
   onCancelForReportModal = () =>{
     this.setState({modal:false})
   }
@@ -304,11 +302,11 @@ this.props.FetchReport(
           <h2 style={{ margin: 'auto', textAlign: 'center' }}>
             Toilet Monitoring System
           </h2>
-          <input
+          {/* <input
             type='color'
             value={this.state.backgroundColor}
             onChange={this.onChangeBackground}
-          />
+          /> */}
           <Button type='primary' onClick={this.onlogoutClick}>
             Logout
           </Button>

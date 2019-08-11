@@ -56,46 +56,7 @@ class Report extends Component {
             <h1>{this.state.device}</h1>
             
             <Tabs type="card">
-            <TabPane tab="Good" key="Good">
-            <div style={{width:'40%'}}>
-          Threshold Value
-          <Slider value={this.state.thresholdGood} onChange={(a)=>{this.setState({thresholdGood:a})}}  min={1}  max={10}  marks={{
-       
-       10: {
-         style: {
-           color: 'green',
-         },
-         label:<strong style={{fontSize:'10px'}}>Green</strong>,
-       },
-     }}/>
-        </div>
-            <table  className="table2">
-                <tbody>
-                    <tr>
-                        <th>Date</th>
-                        {this.state.hours.map(o=>(
-                            <th style={{ textAlign: "center" }}>{o}</th>
-                        ))}
-                    </tr>
-                       {this.state.report.dateList.map(c=>(       ///this is the mapping of each element of the arrya of the report 
-                                                                  //this is done by having 2 arrays one with 24 hours and one with the list of dates
-                                                                  //using these 2 we map eachelemt on the table
-                    <tr>
-                        <td>{c.slice(0,10)}</td>
-                            {this.state.hours.map(d=>(
-                                this.state.report.good[c.toString()][d.toString()] >= this.state.thresholdGood ? (
-                                    <td style={{ backgroundColor: "green" }}>
-                                      {this.state.report.good[c.toString()][d.toString()]}    
-                                    </td>
-                                  ) : (
-                                    <td>{this.state.report.good[c.toString()][d.toString()]}</td>
-                                  )
-                            ))}                           
-                    </tr>
-                           ))}
-                </tbody>
-            </table>
-            </TabPane>
+            
             <TabPane tab="Bad" key="Bad">
             <div style={{width:'40%'}}>
           Threshold Value
@@ -207,6 +168,46 @@ class Report extends Component {
                   </tr>
                 ))}
               </tbody>
+            </table>
+            </TabPane>
+            <TabPane tab="Good" key="Good">
+            <div style={{width:'40%'}}>
+          Threshold Value
+          <Slider value={this.state.thresholdGood} onChange={(a)=>{this.setState({thresholdGood:a})}}  min={1}  max={10}  marks={{
+       
+       10: {
+         style: {
+           color: 'green',
+         },
+         label:<strong style={{fontSize:'10px'}}>Green</strong>,
+       },
+     }}/>
+        </div>
+            <table  className="table2">
+                <tbody>
+                    <tr>
+                        <th>Date</th>
+                        {this.state.hours.map(o=>(
+                            <th style={{ textAlign: "center" }}>{o}</th>
+                        ))}
+                    </tr>
+                       {this.state.report.dateList.map(c=>(       ///this is the mapping of each element of the arrya of the report 
+                                                                  //this is done by having 2 arrays one with 24 hours and one with the list of dates
+                                                                  //using these 2 we map eachelemt on the table
+                    <tr>
+                        <td>{c.slice(0,10)}</td>
+                            {this.state.hours.map(d=>(
+                                this.state.report.good[c.toString()][d.toString()] >= this.state.thresholdGood ? (
+                                    <td style={{ backgroundColor: "green" }}>
+                                      {this.state.report.good[c.toString()][d.toString()]}    
+                                    </td>
+                                  ) : (
+                                    <td>{this.state.report.good[c.toString()][d.toString()]}</td>
+                                  )
+                            ))}                           
+                    </tr>
+                           ))}
+                </tbody>
             </table>
             </TabPane>
             </Tabs>
