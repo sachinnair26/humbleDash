@@ -15,7 +15,6 @@ export function getData() {
   };
 }
 export function FetchReport(dateList, device, organisation) {//takes 3 inputs list of dates,devices ,organisation
-  console.log(dateList, device, organisation);
   for(var i = 0 ;i<dateList.length;i++){
     var date1 = new Date(dateList[i])+''  //change the date format 2018-12-02 to Sun Dec 02 2018
     for(let x=1;x<=24;x++){        

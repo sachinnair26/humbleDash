@@ -60,6 +60,8 @@ static getDerivedStateFromProps(props, state){
     
 }
 componentDidUpdate(prevProps,prevState){
+  console.log("ret");
+  
    if(this.props.data !== prevProps.data){
      this.setState({visible:false})
    }

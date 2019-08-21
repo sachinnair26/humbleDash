@@ -227,7 +227,6 @@ class App extends Component {
       dateList.push(moment(weekpast).format('YYYY-MM-DD'))
       weekpast = moment(weekpast).add(1, 'days')
     }
-    console.log(dateList);
     
     this.setState({ dateList })
   }
@@ -235,7 +234,6 @@ class App extends Component {
   onOkForReport = () => {
     // on pressing this it initiates fetching o report
     if (this.state.deviceForReport === '' || this.state.dateList === []) {
-      console.log('i reach here')
 
       message.error('Enter the credentials')
     } else {
@@ -271,7 +269,6 @@ class App extends Component {
   }
   onClickSingleColumnOnTable = (record) =>{
     this.setState({deviceForReport:record.devicename,modalforreport:true})
-    console.log(record,this.state.dateList);
     var dateList = []
     var todaysDate = moment(new Date()).subtract(1, 'days')
     var weekpast = moment(todaysDate).subtract(6, 'days')

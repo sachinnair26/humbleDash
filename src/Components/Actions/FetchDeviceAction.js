@@ -43,7 +43,6 @@ export default function FetchDeviceAction(date, organisation,uid) { //takes 3 va
                   }
                 });
               });
-              console.log(deviceData);
               
               dispatch({
                 type: FETCH_DEVICE,

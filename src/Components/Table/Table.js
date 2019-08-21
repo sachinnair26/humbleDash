@@ -58,11 +58,18 @@ class DeviceTable extends Component {
       }
     }
   }
+  componentDidMount(){
+    // console.log("sae");
+    // if(this.state.data1 == this.props.device ){
+    // this.setState({spin:false})
+      
+    // }
+  }
   componentDidUpdate(prevProps,prevState){
-    if(this.props.device !== prevProps.device){
-      this.setState({spin:false})
-    }
-
+    
+  if(this.props.device !== prevProps.device){
+    this.setState({spin:false})
+  }
   }
 
   onSearch(e) {                           //this function is used for search
@@ -84,12 +91,13 @@ class DeviceTable extends Component {
     
   }
   selectFunction = (record) =>{
-    console.log("saasaassawwwwww22222222222",record);
     
     this.setState({ currentDevice: record.devicename});
     this.props.getData(record.devicename,record.location)
   }
   render() {
+    console.log(this.state);
+    
     return (
       <div className="table">
         <div>
@@ -113,7 +121,6 @@ class DeviceTable extends Component {
   }
 }
 const mapStateToProps = state => (
-  console.log(state),
   {
     device:state.device
   }

@@ -9,8 +9,10 @@ const initialState = {
   user:null,
 };
 const allEnhancers = compose(
-  applyMiddleware(thunk, logger),
+  applyMiddleware(thunk),
 );
 const store = createStore(Reducer, initialState, allEnhancers);
+// const store = createStore(Reducer, initialState, allEnhancers);
+
 console.log(store.getState());
 export default store;

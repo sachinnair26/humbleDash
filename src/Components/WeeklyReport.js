@@ -19,7 +19,7 @@ class Report extends Component {
         }
     }
    componentDidMount(){
-
+    
     if(this.props.user === null){
       this.props.history.push('/dashboard')
     }
