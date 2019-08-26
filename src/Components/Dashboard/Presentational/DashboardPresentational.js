@@ -49,7 +49,8 @@ const DashboardPresentational = ({
   search_return,
   onSearch,
   onClickToChangeGraph,
-  graph_display_value
+  graph_display_value,
+  onChangeDatePicker
 }) => {
   var totalCount = avgCount+goodCount+badCount
   var percentgood = Math.round((goodCount/totalCount)*100) || 0;
@@ -130,9 +131,7 @@ const DashboardPresentational = ({
             <div className='dateselector-arrows'>
               <Icon type='left' onClick={onPreviousDateSelect} />
               <DatePicker
-                onChange={(date, dateString) => {
-                  ChangeDateAction(date)
-                }}
+                onChange={onChangeDatePicker}
                 value={moment(selected_date)}
               />
               <Icon type='right' onClick={onNextDateSelect} />

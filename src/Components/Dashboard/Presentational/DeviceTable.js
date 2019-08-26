@@ -7,7 +7,7 @@ const DeviceTable = (props) =>{
           title: "Location",
           key: "location",
           className: "userdeilght",
-          render:(record)=>{return <div onClick={()=>props.ChangeDeviceAction(record.devicename,record.location)} style={{cursor:'pointer'}}>{record.location}</div>
+          render:(record)=>{return <div onClick={()=>props.ChangeDeviceAction(record.devicename,record.location,record.installation_date)} style={{cursor:'pointer'}}>{record.location}</div>
           }
         },
         {

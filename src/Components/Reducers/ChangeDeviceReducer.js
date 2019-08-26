@@ -1,7 +1,8 @@
 import {CHANGE_DEVICE,USER_LOGOUT} from '../ActionCreator';
 const InitialState ={
     current_device:'',
-    device_location:''
+    device_location:'',
+    installation_date:''
 }
 export default function ChangeDeviceReducer(state=InitialState,action){
     switch(action.type){

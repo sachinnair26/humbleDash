@@ -54,7 +54,7 @@ export default function FetchDeviceAction(date){
                 });
                 loading = false
                 if(getState().ChangeDeviceReducer.current_device === ""){
-                  dispatch(ChangeDeviceAction(device_list[0].devicename,device_list[0].location))
+                  dispatch(ChangeDeviceAction(device_list[0].devicename,device_list[0].location,device_list[0].installation_date))
                 }
                 dispatch({
                   type:FETCH_DEVICE,

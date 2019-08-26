@@ -44,11 +44,35 @@ class DashboardContainer extends Component {
   }
   onPreviousDateSelect = () => {
     var previous_date = moment(this.props.selected_date).subtract(1, 'days')
-    this.props.ChangeDateAction(previous_date)
+    if(previous_date <= moment(this.props.installation_date)){
+      message.error(`Please Select Date after ${this.props.installation_date}`)
+      this.props.ChangeDateAction(this.props.installation_date)
+    }else{
+
+      this.props.ChangeDateAction(previous_date)
+    }
   }
   onNextDateSelect = () => {
     var next_date = moment(this.props.selected_date).add(1, 'days')
-    this.props.ChangeDateAction(next_date)
+    if(next_date <= moment(this.props.installation_date)){
+      message.error(`Please Select Date after ${this.props.installation_date}`)
+      this.props.ChangeDateAction(this.props.installation_date)
+      
+    }else{
+
+      this.props.ChangeDateAction(next_date)
+    }
+  }
+  onChangeDatePicker = (date,dateString)=>{
+    if(moment(date) <= moment(this.props.installation_date)){
+      message.error(`Please Select Date after ${this.props.installation_date}`)
+      this.props.ChangeDateAction(this.props.installation_date)
+
+    }else{
+
+      this.props.ChangeDateAction(date)
+    }
+    
   }
   onClickReportButton = () => {
     this.setState({ modal_visible: true })
@@ -203,6 +227,7 @@ class DashboardContainer extends Component {
           search_return={this.state.search_return}
           graph_display_value={this.state.graph_display_value}
           onSearch={this.onSearch}
+          onChangeDatePicker={this.onChangeDatePicker}
           onClickToChangeGraph={this.onClickToChangeGraph}
           selected_device_location={this.props.selected_device_location}
           onChangeSlider={this.onChangeSlider}
@@ -237,7 +262,9 @@ const mapStateToProps = state => ({
   loading: state.FetchDeviceReducer.loading,
   report7days: state.Fetch7DaysReducer,
   logged_in:state.UserLoginReducer.logged_in,
-  selected_device_location:state.ChangeDeviceReducer.device_location
+  selected_device_location:state.ChangeDeviceReducer.device_location,
+  selected_device:state.ChangeDeviceReducer.current_device,
+  installation_date:state.ChangeDeviceReducer.installation_date
 })
 
 export default connect(
