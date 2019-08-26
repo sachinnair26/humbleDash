@@ -51,10 +51,10 @@ const DashboardPresentational = ({
   onClickToChangeGraph,
   graph_display_value
 }) => {
-  var total = avgCount+goodCount+badCount
-  var percentgood = Math.round((goodCount/total)*100) || 0;
-  var percentaverage = Math.round((avgCount/total)*100) || 0;
-  var percentbad =Math.round((badCount/total)*100) || 0;
+  var totalCount = avgCount+goodCount+badCount
+  var percentgood = Math.round((goodCount/totalCount)*100) || 0;
+  var percentaverage = Math.round((avgCount/totalCount)*100) || 0;
+  var percentbad =Math.round((badCount/totalCount)*100) || 0;
   return (
     <div className='dashboard-main'>
       <div className='top-bar'>
