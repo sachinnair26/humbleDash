@@ -1,0 +1,17 @@
+.table1{
+    width:90%;
+    margin: auto;
+  }
+  .table1 th  {
+      border: 0px solid black;
+      padding: 0px;
+      cursor: pointer;
+      text-align: center;
+
+  }
+   .table1 td  {
+      border: 1px solid black;
+      padding: 0px;
+      cursor: pointer;
+      text-align: center;
+  }

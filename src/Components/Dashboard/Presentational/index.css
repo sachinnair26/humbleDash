@@ -1,0 +1,206 @@
+.graph{
+    border-radius: 20px;
+     background-color: #fff;
+     display: flex;
+     align-items: center;
+     min-height: 67vh;
+     justify-content: center;
+     width:98%;
+     padding:1%;
+ }
+ .dashboard-main{
+    background-color: hsl(182, 54%, 71%);
+    min-height: 100vh;
+ }
+.content1 h4  {
+   font-weight: 900;
+
+ }
+ .content1 h5 {
+  font-weight: 900;
+
+ }
+ .device-table {
+    overflow: auto;
+    font-size: 14px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding-top: 1%;
+    min-height: 60vh;
+    width:100%; 
+
+  }
+  .device-table input {
+    border: 1px solid black;
+    margin: auto;
+    display: flex;
+    border-radius: 3px 3px 0px 0px;
+    width: 90%;
+      
+  }
+  
+  .table-dateselector{
+      width:98%;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .dashboard-internal{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;    
+      height: 95vh;
+      }
+  .top-bar {
+      display: flex;
+      flex-direction: row;
+      width:100%;
+      padding:2px;
+      background-color: #b68cdd5e;
+  }
+ .top-bar h2{
+     margin: auto;
+     text-align: center;
+     font-weight: bolder;
+ }
+ .logout-button {
+     border-radius: 20px;
+    align-self: center;
+    justify-content: center;
+}
+
+
+.device-info{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 98%;
+  border-radius: 30px;
+  flex-wrap: wrap;
+  margin-top: 2%;
+  margin-bottom: 1%;
+  background-color: #fff;
+  padding: 1%;
+}
+.internal-col-1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width:74%;
+}   
+.internal-col-2{
+    width: 26%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
+.content1 {
+  
+  background-color: #fff;
+  padding: 1%;
+  width: 30%;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  }
+  .dateselector-arrows{
+    display: flex;
+    justify-content: space-evenly;
+    width: 90%;
+    align-items: center;
+  }
+  .red-button-for-report {
+    background-color: #fe001e;
+    padding: 30px;
+    border-radius: 20px;
+    color:#fff;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .deviceName {
+    padding: none;
+    font-size: 12px;
+    display: none;
+  }
+  .footfall {
+    padding: none;
+    font-size: 12px;
+  }
+  .userdeilght {
+    padding: none;
+    font-size: 12px;
+    font-weight: 900;
+  }
+  .deviceName tr td {
+    padding: 0px;
+  }
+  .barStyle {
+    display: flex;
+    flex-direction: row;
+    width: 98%;
+    font-size: 9px;
+    margin-bottom: 1%;
+  }
+  .goodSpan {
+    background-color: rgba(10, 167, 69, 0.6);
+    border: 2px solid;
+    border-radius: 5px 0px 0px 5px;
+    border-color: rgba(10, 167, 69, 1);
+    border-width: 1;
+    width: 33%;
+    font-size: 15px;
+      font-weight: 900;
+    padding:5px;
+    text-align: center;
+  
+  }
+  .goodSpan:hover {
+    cursor: pointer;
+    background-color: rgba(10, 167, 69, 0.4);
+    border-color: rgba(10, 167, 69, 1);
+  }
+  .avgSpan {
+    background-color: rgba(255, 193, 7, 0.6);
+    border: 2px solid;
+    border-color: rgba(255, 193, 7, 1);
+    border-width: 1;
+    width: 33%;
+    padding:5px;
+    font-size: 15px;
+      font-weight: 900;
+      text-align: center;
+  
+  }
+  .avgSpan:hover {
+    cursor: pointer;
+    
+    background-color: rgba(255, 193, 7, 0.4);
+    border-color: rgba(255, 193, 7, 1);
+  }
+  .badSpan {
+    padding:5px;
+    width: 33%;
+    background-color: rgba(205, 92, 92, 0.6);
+    border: 2px solid;
+    border-radius: 0px 5px 5px 0px;
+  
+    border-color: rgba(205, 92, 92, 0.2);
+    border-width: 1;
+    font-size: 15px;
+      font-weight: 900;
+      text-align: center;
+  }
+  .badSpan:hover {
+    cursor: pointer;
+    background-color: rgba(255, 99, 132, 0.4);
+    border-color: rgba(255, 99, 132, 1);
+  }
+  .ant-table-column-title {
+    font-weight: 900;
+  }

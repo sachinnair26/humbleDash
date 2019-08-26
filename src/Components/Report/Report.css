@@ -1,9 +1,0 @@
-.table1{
-  width:100%;
-  margin: auto;
-}
-.table1 th,td {
-    border: 1px solid black;
-    padding: 15px;
-    cursor: pointer;
-}
